@@ -31,6 +31,46 @@ view: envases {
     drill_fields: [detail*]
   }
 
+  measure: NATIONAL_QTY_MTD {
+    label: "NATIONAL QTY_MTD"
+    type: sum
+    sql: ${bill_qty} ;;
+   filters: [distr_chan: "10"]
+    drill_fields: [detail*]
+  }
+
+  measure: _VS_QTY {
+    label: "% VS QTY"
+    type: count
+    drill_fields: [detail*]
+  }
+
+  measure: _VS_BUD_QTY {
+    label: "% VS BUD QTY"
+    type: count
+    drill_fields: [detail*]
+  }
+
+  measure: NATIONAL_AMOUNT_MTD {
+    label: "NATIONAL AMOUNT MTD"
+    type: count
+    drill_fields: [detail*]
+  }
+
+  measure: VS_BUD_VAL {
+    label: "%VS BUD VAL"
+    type: count
+    drill_fields: [detail*]
+  }
+
+  measure: EXPORT_QTY_MTD {
+    label: "EXPORT QTY_MTD"
+    type: count
+    drill_fields: [detail*]
+  }
+
+
+
   dimension: categoria {
     type: string
     sql: ${TABLE}.categoria ;;
@@ -60,6 +100,9 @@ view: envases {
     type: number
     sql: ${TABLE}.BILL_QTY ;;
   }
+
+
+
 
   dimension: znetval {
     type: number
