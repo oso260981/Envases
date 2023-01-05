@@ -35,7 +35,7 @@ view: envases {
     label: "NATIONAL QTY_MTD"
     type: sum
     sql: ${bill_qty} ;;
-   filters: [distr_chan: "10"]
+   filters: [distr_chan: "10",znetval: "0"]
     drill_fields: [detail*]
   }
 
@@ -248,6 +248,12 @@ view: envases {
     type: string
     sql: ${TABLE}.CALDAY ;;
   }
+
+  dimension: calendario {
+    type: date
+    sql: PARSE_DATE("%Y%m%d", CAST(calday AS TEXT)) ;;
+  }
+
 
   dimension: loc_currcy {
     type: string
