@@ -1,34 +1,34 @@
 view: envases_2023 {
   derived_table: {
-    sql: select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2 from (
+    sql: select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2,SALESORG,SOLD_TO from (
       select 'CP 19L' Categoria, parse_timestamp('%Y%m%d%H%M%S',cast( CONCAT(calday,'120101') as string)) created, calday Fecha,CONCAT(cast(cast(SUBSTR(calday,1,4)as int)-1 as STRING),SUBSTR(calday,5,4))fecha2 , distr_chan,sum(BILL_QTY) BILL_QTY,sum(znetval) znetval, from `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`
       GROUP BY 1,2,3,4,5) sl
       left join (
                 select calday ,distr_chan,sum(BILL_QTY) BILL_QTY,sum(znetval) znetval from `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`GROUP BY 1,2
                ) sy on sl.fecha2=sy.calday and sl.distr_chan=sy.distr_chan
        union all
-       select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2 from (
+       select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2,SALESORG,SOLD_TO from (
       select 'CP 15L' Categoria, parse_timestamp('%Y%m%d%H%M%S',cast( CONCAT(calday,'120101') as string)) created, calday Fecha,CONCAT(cast(cast(SUBSTR(calday,1,4)as int)-1 as STRING),SUBSTR(calday,5,4))fecha2 , distr_chan,sum(BILL_QTY) BILL_QTY,sum(znetval) znetval, from `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`
       GROUP BY 1,2,3,4,5) sl
       left join (
                 select calday ,distr_chan,sum(BILL_QTY) BILL_QTY,sum(znetval) znetval from `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`GROUP BY 1,2
                ) sy on sl.fecha2=sy.calday and sl.distr_chan=sy.distr_chan
          union all
-       select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2 from (
+       select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2,SALESORG,SOLD_TO from (
       select 'CP 10L' Categoria, parse_timestamp('%Y%m%d%H%M%S',cast( CONCAT(calday,'120101') as string)) created, calday Fecha,CONCAT(cast(cast(SUBSTR(calday,1,4)as int)-1 as STRING),SUBSTR(calday,5,4))fecha2 , distr_chan,sum(BILL_QTY) BILL_QTY,sum(znetval) znetval, from `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`
       GROUP BY 1,2,3,4,5) sl
       left join (
                 select calday ,distr_chan,sum(BILL_QTY) BILL_QTY,sum(znetval) znetval from `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`GROUP BY 1,2
                ) sy on sl.fecha2=sy.calday and sl.distr_chan=sy.distr_chan
                  union all
-       select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2 from (
+       select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2,SALESORG,SOLD_TO from (
       select 'CP 08L' Categoria, parse_timestamp('%Y%m%d%H%M%S',cast( CONCAT(calday,'120101') as string)) created, calday Fecha,CONCAT(cast(cast(SUBSTR(calday,1,4)as int)-1 as STRING),SUBSTR(calday,5,4))fecha2 , distr_chan,sum(BILL_QTY) BILL_QTY,sum(znetval) znetval, from `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`
       GROUP BY 1,2,3,4,5) sl
       left join (
                 select calday ,distr_chan,sum(BILL_QTY) BILL_QTY,sum(znetval) znetval from `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`GROUP BY 1,2
                ) sy on sl.fecha2=sy.calday and sl.distr_chan=sy.distr_chan
                  union all
-       select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2 from (
+       select sl.*,sy.BILL_QTY BILL_QTY2,sy.znetval znetval2,SALESORG,SOLD_TO from (
       select 'CP 04L' Categoria, parse_timestamp('%Y%m%d%H%M%S',cast( CONCAT(calday,'120101') as string)) created, calday Fecha,CONCAT(cast(cast(SUBSTR(calday,1,4)as int)-1 as STRING),SUBSTR(calday,5,4))fecha2 , distr_chan,sum(BILL_QTY) BILL_QTY,sum(znetval) znetval, from `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`
       GROUP BY 1,2,3,4,5) sl
       left join (
@@ -95,6 +95,18 @@ view: envases_2023 {
     filters: [distr_chan: "20"]
     drill_fields: [detail*]
   }
+
+  dimension: salesorg {
+    type: string
+    sql: ${TABLE}.SALESORG ;;
+  }
+
+  dimension: sold_to {
+    type: string
+    sql: ${TABLE}.SOLD_TO ;;
+  }
+
+
 
   measure: NATIONAL_QTY_MTDY {
     label: "NATIONAL QTY_MTD_AÑO ANT"
