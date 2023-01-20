@@ -1,7 +1,8 @@
 view: rpt_ventas {
   derived_table: {
-    sql: SELECT * FROM `envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas`
-      ;;
+    sql: SELECT v.*,c.DATE Fecha,c.QUARTER FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+      LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY
+       ;;
   }
 
   measure: count {
@@ -199,6 +200,17 @@ view: rpt_ventas {
     sql: ${TABLE}.SUBCATEGORY ;;
   }
 
+  dimension: fecha {
+    type: date
+    datatype: date
+    sql: ${TABLE}.Fecha ;;
+  }
+
+  dimension: quarter {
+    type: number
+    sql: ${TABLE}.QUARTER ;;
+  }
+
   set: detail {
     fields: [
       net_wgt_dl,
@@ -238,7 +250,9 @@ view: rpt_ventas {
       loc_currcy,
       base_uom,
       category,
-      subcategory
+      subcategory,
+      fecha,
+      quarter
     ]
   }
 }
