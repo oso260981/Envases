@@ -30,6 +30,42 @@ view: envases_2023 {
   }
 
 
+  dimension: Paises {
+    case: {
+      when: {
+        sql: ${TABLE}.SALESORG = "DE00" ;;
+        label: "Alemania"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG = "NLF1" ;;
+        label: "Holanda"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG = "3100" ;;
+        label: "Canadá"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG in ( "MXF1","MXFC") ;;
+        label: "México"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG in ( "GTF1") ;;
+        label: "Guatemala"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG in ( "DKF1","DKF3","SEF1","SEF2") ;;
+        label: "Dinamarca"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG in ( "USF1") ;;
+        label: "USA"
+      }
+
+      else: "Otros"
+    }
+  }
+
+
 
 
   dimension: sold_to {
