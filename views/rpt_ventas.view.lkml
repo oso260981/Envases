@@ -1,13 +1,50 @@
 view: rpt_ventas {
   derived_table: {
-    sql: SELECT v.*,c.DATE Fecha,c.QUARTER FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+    sql: SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
       LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY
        ;;
   }
 
+  dimension_group: created {
+    label: "Periodo"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      month_name,
+      year
+    ]
+    sql: CAST(${TABLE}.Fecha AS TIMESTAMP) ;;
+
+  }
+
+
+
+
+
+
+
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+
+
+
+
+
+
+
+
+  dimension: year {
+    label: "año"
+    type: number
+    sql: ${TABLE}.YEAR ;;
   }
 
   dimension: net_wgt_dl {
@@ -200,9 +237,8 @@ view: rpt_ventas {
     sql: ${TABLE}.SUBCATEGORY ;;
   }
 
-  dimension: fecha {
-    type: date
-    datatype: date
+  dimension_group: fecha {
+    type: time
     sql: ${TABLE}.Fecha ;;
   }
 
@@ -210,6 +246,42 @@ view: rpt_ventas {
     type: number
     sql: ${TABLE}.QUARTER ;;
   }
+
+  measure: Total_bill_qty {
+    type: sum
+    sql: ${TABLE}.BILL_QTY ;;
+    drill_fields: [detail*]
+  }
+
+  measure: This_Month{
+    type: sum
+    sql: ${TABLE}.BILL_QTY;;
+    filters: [fecha_date: "this month"]
+  }
+
+
+  measure: Previous_Month{
+    type: sum
+    sql: if(EXTRACT(DAY FROM ${fecha_date}) <= EXTRACT(DAY FROM CURRENT_TIMESTAMP()), ${TABLE}.BILL_QTY,0) ;;
+    filters: [fecha_date:  "12 month ago"]
+  }
+
+
+  dimension: is_before_mtd {
+    type: yesno
+    sql: EXTRACT(Month from ${fecha_date}) < EXTRACT(Month from CURRENT_DATE);;
+  }
+
+
+  measure: LitrosYearAnterior {
+
+    type: sum
+    sql: case when ${created_year} =  EXTRACT(YEAR FROM ${fecha_date})-1 then ${bill_qty} end ;;
+    value_format:"#,##0.00"
+
+  }
+
+
 
   set: detail {
     fields: [
@@ -251,7 +323,7 @@ view: rpt_ventas {
       base_uom,
       category,
       subcategory,
-      fecha,
+      fecha_time,
       quarter
     ]
   }
