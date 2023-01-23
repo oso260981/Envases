@@ -254,46 +254,13 @@ view: rpt_ventas {
     drill_fields: [detail*]
   }
 
-  measure: This_Month{
-    type: sum
-    sql: ${TABLE}.BILL_QTY;;
-    filters: [fecha_date: "this month"]
-  }
-
-
-  measure: Previous_Month{
-    type: sum
-    sql: if(EXTRACT(DAY FROM ${fecha_date}) <= EXTRACT(DAY FROM CURRENT_TIMESTAMP()), ${TABLE}.BILL_QTY,0) ;;
-    filters: [fecha_date:  "12 month ago"]
-  }
-
-
-  dimension: is_before_mtd {
-    type: yesno
-    sql: EXTRACT(Month from ${fecha_date}) < EXTRACT(Month from CURRENT_DATE);;
-  }
-
-
-  measure: LitrosYearAnterior {
-
-    type: sum
-    sql: case when ${created_year} =  EXTRACT(YEAR FROM ${fecha_date})-1 then ${bill_qty} end ;;
-    value_format:"#,##0.00"
-
-  }
-
-
+######  Filtros Periodos actuales y anteriores mes ########################################################################################
 
   filter: date_filter {
 
     description: "Use this date filter in combination with the timeframes dimension for dynamic date filtering"
     type: date
   }
-
-
-
-
-
 
 
   dimension_group: filter_start_date {
@@ -304,12 +271,6 @@ view: rpt_ventas {
 
   }
 
-
-
-
-
-
-
   dimension_group: filter_end_date {
     type: time
     timeframes: [raw,date]
@@ -317,186 +278,86 @@ view: rpt_ventas {
   }
 
 
-
-
-
-
-
   dimension: interval {
     type: number
     sql: date_diff(${filter_start_date_raw}, ${filter_end_date_raw},day);;
   }
 
-
-
-
-
-
-
   dimension: previous_start_date {
-
-
-
     type: string
-
-    sql: DATE_ADD(DATE ${filter_start_date_raw}, INTERVAL -${interval} DAY);;
+    sql: DATE_ADD(DATE ${filter_start_date_raw}, INTERVAL -12 month);;
 
    # sql: DATE_ADD(day, - ${interval}, ${filter_start_date_raw});;
-
-
-
   }
 
 
+  dimension: previous_end_date {
+    type: string
+    sql: DATE_ADD(DATE ${filter_end_date_raw}, INTERVAL -12 month);;
 
-
-
-
+    # sql: DATE_ADD(day, - ${interval}, ${filter_start_date_raw});;
+  }
 
   dimension: is_current_period {
-
-
-
     type: yesno
-
-
-
-    sql: ${created_date} >= ${filter_start_date_date} AND ${created_date} < ${filter_end_date_date} ;;
-
-
-
+    sql: ${created_date} >= ${filter_start_date_date} AND ${created_date} <= ${filter_end_date_date} ;;
   }
-
-
-
-
-
-
 
   dimension: is_previous_period {
-
-
-
     type: yesno
 
-
-
-    sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
-
-
-
+   # sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
+    sql: ${created_date} >= ${previous_start_date} AND ${created_date} <= ${previous_end_date} ;;
   }
-
-
-
-
-
-
 
   dimension: timeframes {
-
-
-
     description: "Use this field in combination with the date filter field for dynamic date filtering"
-
-
-
     suggestions: ["period","previous period"]
-
-
-
     type: string
-
-
-
     case: {
-
-
-
       when: {
-
-
-
         sql: ${is_current_period} = true;;
-
-
-
         label: "Selected Period"
-
-
-
-      }
-
-
+       }
 
       when: {
-
-
-
         sql: ${is_previous_period} = true;;
-
-
-
         label: "Previous Period"
-
-
-
       }
-
-
-
       else: "Not in time period"
-
-
-
     }
-
-
-
   }
 
+  ####################################################################################################################################
 
 
-
-
+  ####################################Medias Calculadas###############################################################################
 
 
   measure: selected_period_order_revenue {
-
     type: count
-
    # sql: ${TABLE}.BILL_QTY ;;
 
     filters: {
-
       field: is_current_period
-
       value: "yes"
-
     }
   #  value_format_name: decimal_1
-
   }
 
 
 
   measure: previous_period_order_revenue {
-label: "Peiodo Anterior"
+    label: "Peiodo Anterior"
     type: count
 
    # sql: ${TABLE}.BILL_QTY ;;
 
     filters: {
-
       field: is_previous_period
-
       value: "yes"
-
     }
-
   #  value_format_name: decimal_1
-
-
 
   }
 
