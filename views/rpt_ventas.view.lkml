@@ -264,7 +264,7 @@ view: rpt_ventas {
 
 
   dimension_group: filter_start_date {
-
+    hidden: yes
     type: time
     timeframes: [raw,date]
     sql: CASE WHEN {% date_start date_filter %} IS NULL THEN '2013-01-01' ELSE CAST({% date_start date_filter %} AS DATE) END;;
@@ -272,6 +272,7 @@ view: rpt_ventas {
   }
 
   dimension_group: filter_end_date {
+    hidden: yes
     type: time
     timeframes: [raw,date]
     sql: CASE WHEN {% date_end date_filter %} IS NULL THEN CURRENT_DATE ELSE CAST({% date_end date_filter %} AS DATE) END;;
@@ -279,11 +280,13 @@ view: rpt_ventas {
 
 
   dimension: interval {
+    hidden: yes
     type: number
     sql: date_diff(${filter_start_date_raw}, ${filter_end_date_raw},day);;
   }
 
   dimension: previous_start_date {
+    hidden: yes
     type: string
     sql: DATE_ADD(DATE ${filter_start_date_raw}, INTERVAL -12 month);;
 
@@ -292,6 +295,7 @@ view: rpt_ventas {
 
 
   dimension: previous_end_date {
+    hidden: yes
     type: string
     sql: DATE_ADD(DATE ${filter_end_date_raw}, INTERVAL -12 month);;
 
@@ -299,13 +303,14 @@ view: rpt_ventas {
   }
 
   dimension: is_current_period {
+    hidden: yes
     type: yesno
     sql: ${created_date} >= ${filter_start_date_date} AND ${created_date} <= ${filter_end_date_date} ;;
   }
 
   dimension: is_previous_period {
+    hidden: yes
     type: yesno
-
    # sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
     sql: ${created_date} >= ${previous_start_date} AND ${created_date} <= ${previous_end_date} ;;
   }
@@ -328,10 +333,158 @@ view: rpt_ventas {
     }
   }
 
+  dimension: Agregacion_DIA {
+   label: "Agregación DÍA"
+    type: number
+    sql:  EXTRACT(day FROM ${filter_start_date_date})  ;;
+  }
+
   ####################################################################################################################################
 
 
   ####################################Medias Calculadas###############################################################################
+
+  measure: NATIONAL_QTY_MTD {
+    label: "NATIONAL QTY_MTD"
+    type: sum
+    sql: ${bill_qty} ;;
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    drill_fields: [detail*]
+  }
+
+  measure: NATIONAL_QTY_MTDY {
+    label: "NATIONAL QTY_MTD_AÑO ANT"
+    type: sum
+    sql: ${bill_qty} ;;
+
+    filters: {
+      field: is_previous_period
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    drill_fields: [detail*]
+  }
+
+
+  measure: VS_QTY {
+    label: "% VS QTY"
+    type: number
+    sql: CASE WHEN ${NATIONAL_QTY_MTD} > 1 AND ${NATIONAL_QTY_MTDY} = 0 THEN 1
+              WHEN ${NATIONAL_QTY_MTD} = 0 AND ${NATIONAL_QTY_MTDY} > 0 THEN -1
+              WHEN (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0)) -1= 0 THEN 0 ELSE (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0)) -1 END;;
+    value_format: "0.00\%"
+  }
+
+
+  measure: NATIONAL_BUD_QTY_MTD {
+    label: "NATIONAL BUD QTY MTD"
+    type: sum
+    sql: ${bill_qty} ;;
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    drill_fields: [detail*]
+  }
+
+  measure: BUD_DIA_MES_NATIONAL_QTY {
+    label: "BUD_DÍA_MES_NATIONAL_QTY"
+    type: number
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${NATIONAL_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 2 THEN ${NATIONAL_BUD_QTY_MTD}/28
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 3 THEN ${NATIONAL_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 4 THEN ${NATIONAL_BUD_QTY_MTD}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 5 THEN ${NATIONAL_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 6 THEN ${NATIONAL_BUD_QTY_MTD}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 7 THEN ${NATIONAL_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 8 THEN ${NATIONAL_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 9 THEN ${NATIONAL_BUD_QTY_MTD}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 10 THEN ${NATIONAL_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 11 THEN ${NATIONAL_BUD_QTY_MTD}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 12 THEN ${NATIONAL_BUD_QTY_MTD}/31
+              ELSE ${NATIONAL_BUD_QTY_MTD}
+              END;;
+
+  }
+
+
+  measure: BUD_NATIONAL_QTY_MTD {
+    label: "BUD NATIONAL QTY_MTD"
+    type: number
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_QTY}* ${Agregacion_DIA}
+    else ${BUD_DIA_MES_NATIONAL_QTY}* ${Agregacion_DIA}  END;;
+
+    }
+
+
+  measure: VS_BUD_QTY {
+    label: "% VS BUD QTY"
+    type: number
+    sql: CASE WHEN ${NATIONAL_QTY_MTD}>0 AND ${BUD_NATIONAL_QTY_MTD}=0 THEN 1
+              WHEN ${NATIONAL_QTY_MTD}=0 AND ${BUD_NATIONAL_QTY_MTD}>0 THEN -1
+              WHEN (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0)) -1=-1 THEN 0 ELSE (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1
+              END;;
+    value_format: "0.00\%"
+  }
+
+
+  measure: NATIONAL_AMOUNT_MTD {
+    label: "NATIONAL AMOUNT MTD"
+    type: sum
+    sql: ${znetval}/1000 ;;
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    drill_fields: [detail*]
+  }
+
+  measure: NATIONAL_AMOUNT_MTD_YEAR_ANT {
+    label: "NATIONAL AMOUNT MTD AÑO ANTD"
+    type: sum
+    sql: ${znetval}/1000 ;;
+
+    filters: {
+      field: is_previous_period
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    drill_fields: [detail*]
+  }
+
+  measure: VS_VAL {
+    label: "% VS VAL"
+    type: number
+    sql: CASE WHEN ${NATIONAL_AMOUNT_MTD} > 1 AND ${NATIONAL_AMOUNT_MTD_YEAR_ANT} = 0 THEN 1
+              WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${NATIONAL_AMOUNT_MTD_YEAR_ANT} > 0 THEN -1
+              WHEN (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) -1= 0 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) -1 END;;
+    value_format: "0.00\%"
+
+  }
+
+
+
+
+
+
+
+
+
+
 
 
   measure: selected_period_order_revenue {
@@ -361,7 +514,7 @@ view: rpt_ventas {
 
   }
 
-
+ ####################################################################################################################################
 
 
   set: detail {

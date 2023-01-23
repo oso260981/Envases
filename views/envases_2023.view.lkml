@@ -122,7 +122,7 @@ view: envases_2023 {
     label: "NATIONAL QTY_MTD"
     type: sum
     sql: ${bill_qty} ;;
-    filters: [distr_chan: "20"]
+    filters: [distr_chan: "10"]
     drill_fields: [detail*]
   }
 
@@ -130,7 +130,7 @@ view: envases_2023 {
     label: "NATIONAL QTY_MTD_AÑO ANT"
     type: sum
     sql: ${bill_qty2} ;;
-    filters: [distr_chan: "20"]
+    filters: [distr_chan: "10"]
     drill_fields: [detail*]
   }
 
@@ -253,7 +253,7 @@ view: envases_2023 {
     label: "EXPORT AMOUNT MTDY"
     type: sum
     sql: ${znetval2}/100 ;;
-    filters: [distr_chan: "10"]
+    filters: [distr_chan: "20"]
     drill_fields: [detail*]
   }
 
