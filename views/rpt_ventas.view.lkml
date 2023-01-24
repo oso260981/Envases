@@ -258,7 +258,7 @@ view: rpt_ventas {
 ######  Filtros Periodos actuales y anteriores mes ########################################################################################
 
   filter: date_filter {
-
+    label: "Período"
     description: "Use this date filter in combination with the timeframes dimension for dynamic date filtering"
     type: date
   }
