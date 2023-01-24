@@ -408,6 +408,7 @@ view: rpt_ventas {
 
     filters: [distr_chan: "10"]
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -553,7 +554,7 @@ view: rpt_ventas {
     label: "BUD NATIONAL AMOUNT_MTD"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${Agregacion_DIA}
-      else ${BUD_DIA_MES_NATIONAL_AMOUNT}* 5  END;;
+      else ${BUD_DIA_MES_NATIONAL_AMOUNT} * ${Agregacion_DIA} END;;
 
     #  IF([#MES]=1,[#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN])
   }
