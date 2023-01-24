@@ -334,6 +334,41 @@ view: rpt_ventas {
     }
   }
 
+  dimension: Paises {
+    case: {
+      when: {
+        sql: ${TABLE}.SALESORG = "DE00" ;;
+        label: "Alemania"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG = "NLF1" ;;
+        label: "Holanda"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG = "3100" ;;
+        label: "Canadá"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG in ( "MXF1","MXFC") ;;
+        label: "México"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG in ( "GTF1") ;;
+        label: "Guatemala"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG in ( "DKF1","DKF3","SEF1","SEF2") ;;
+        label: "Dinamarca"
+      }
+      when: {
+        sql: ${TABLE}.SALESORG in ( "USF1") ;;
+        label: "USA"
+      }
+
+      else: "Otros"
+    }
+  }
+
   dimension: Agregacion_DIA {
    label: "Agregación DÍA"
     type: number
@@ -516,7 +551,7 @@ view: rpt_ventas {
     label: "BUD NATIONAL AMOUNT_MTD"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${Agregacion_DIA}
-      else ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${Agregacion_DIA}  END;;
+      else ${BUD_DIA_MES_NATIONAL_AMOUNT}* 5  END;;
 
     #  IF([#MES]=1,[#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN])
   }
@@ -889,7 +924,7 @@ view: rpt_ventas {
     type: number
     sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${BUD_TOTAL_AMOUNT} = 0 THEN 1
               WHEN ${TOTAL_AMOUNT} = 0 AND ${BUD_TOTAL_AMOUNT} > 0 THEN -1
-              WHEN (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))*100=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))*100
+              WHEN (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))-1
              END;;
     value_format: "0.00\%"
 
