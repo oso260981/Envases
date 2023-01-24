@@ -372,7 +372,14 @@ view: rpt_ventas {
   dimension: Agregacion_DIA {
    label: "Agregación DÍA"
     type: number
-    sql:  EXTRACT(day FROM ${filter_start_date_date})  ;;
+    sql:  EXTRACT(day FROM ${filter_end_date_date})  ;;
+  }
+
+
+  dimension: DIA_SELECCION_2 {
+    label: "DÍA_SELECCIÓN_2"
+    type: number
+    sql:  EXTRACT(day FROM CURRENT_DATE())  ;;
   }
 
   ####################################################################################################################################
@@ -460,7 +467,7 @@ view: rpt_ventas {
   measure: BUD_NATIONAL_QTY_MTD {
     label: "BUD NATIONAL QTY_MTD"
     type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_QTY}* ${Agregacion_DIA}
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION_2}
     else ${BUD_DIA_MES_NATIONAL_QTY}* ${Agregacion_DIA}  END;;
 
     }
@@ -553,7 +560,7 @@ view: rpt_ventas {
   measure: BUD_NATIONAL_AMOUNT_MTD {
     label: "BUD NATIONAL AMOUNT_MTD"
     type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${Agregacion_DIA}
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_NATIONAL_AMOUNT} * ${Agregacion_DIA} END;;
 
     #  IF([#MES]=1,[#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN])
@@ -669,7 +676,7 @@ view: rpt_ventas {
   measure: BUD_EXPORT_QTY_MTD {
     label: "BUD EXPORT QTY_MTD"
     type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_QTY}* ${Agregacion_DIA}
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_EXPORT_QTY}* ${Agregacion_DIA}  END;;
 
     # IF([#MES]=1,[#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN])
@@ -776,7 +783,7 @@ view: rpt_ventas {
   measure: BUD_EXPORT_AMOUNT_MTD {
     label: "BUD EXPORT AMOUNT_MTD"
     type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_AMOUNT}* ${Agregacion_DIA}
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_EXPORT_AMOUNT}* ${Agregacion_DIA}  END;;
 
     # IF([#MES]=1,[#BUD_DÍA_MES_EXPORT_AMOUNT]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_EXPORT_AMOUNT]*[#DÍA_SELECCIÓN])
