@@ -305,7 +305,7 @@ view: envases_2023 {
     type: number
     sql: CASE WHEN ${TOTAL_QTY} > 1 AND ${TOTAL_QTYY} = 0 THEN 1
               WHEN ${TOTAL_QTY} = 0 AND ${TOTAL_QTYY} > 0 THEN -1
-              WHEN (${TOTAL_QTY}/NULLIF(${TOTAL_QTYY},0)) -1= 0 THEN 0 ELSE (${TOTAL_QTY}/NULLIF(${TOTAL_QTYY},0)) -1 END;;
+              WHEN (${TOTAL_QTY}/NULLIF(${TOTAL_QTYY},0)) = 0 THEN 0 ELSE (${TOTAL_QTY}/NULLIF(${TOTAL_QTYY},0))  END;;
     value_format: "0.00\%"
 
   }
@@ -351,6 +351,8 @@ view: envases_2023 {
     value_format: "0.00\%"
 
   }
+
+
 
 
 

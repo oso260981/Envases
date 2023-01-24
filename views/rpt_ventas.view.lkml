@@ -251,6 +251,7 @@ view: rpt_ventas {
   measure: Total_bill_qty {
     type: sum
     sql: ${TABLE}.BILL_QTY ;;
+    filters: [distr_chan: "10"]
     drill_fields: [detail*]
   }
 
@@ -378,7 +379,7 @@ view: rpt_ventas {
     type: number
     sql: CASE WHEN ${NATIONAL_QTY_MTD} > 1 AND ${NATIONAL_QTY_MTDY} = 0 THEN 1
               WHEN ${NATIONAL_QTY_MTD} = 0 AND ${NATIONAL_QTY_MTDY} > 0 THEN -1
-              WHEN (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0)) -1= 0 THEN 0 ELSE (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0)) -1 END;;
+              WHEN (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0))*100 = 0 THEN 0 ELSE (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0))*100  END;;
     value_format: "0.00\%"
   }
 
@@ -471,8 +472,433 @@ view: rpt_ventas {
     type: number
     sql: CASE WHEN ${NATIONAL_AMOUNT_MTD} > 1 AND ${NATIONAL_AMOUNT_MTD_YEAR_ANT} = 0 THEN 1
               WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${NATIONAL_AMOUNT_MTD_YEAR_ANT} > 0 THEN -1
-              WHEN (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) -1= 0 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) -1 END;;
+              WHEN (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) = 0 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0))  END;;
     value_format: "0.00\%"
+
+  }
+
+  measure: NATIONAL_BUD_AMOUNT_MTD_MIL {
+    label: "NATIONAL BUD AMOUNT MTD MIL"
+    type: sum
+    sql: ${znetval} ;;
+    filters: [distr_chan: "10"]
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+  }
+
+
+  measure: BUD_DIA_MES_NATIONAL_AMOUNT {
+    label: "BUD_DÍA_MES_NATIONAL_AMOUNT"
+    type: number
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 2 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/28
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 3 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 4 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 5 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 6 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 7 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 8 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 9 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 10 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 11 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 12 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/31
+              ELSE ${NATIONAL_BUD_AMOUNT_MTD_MIL}
+              END;;
+
+  }
+
+
+
+  measure: BUD_NATIONAL_AMOUNT_MTD {
+    label: "BUD NATIONAL AMOUNT_MTD"
+    type: number
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${Agregacion_DIA}
+      else ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${Agregacion_DIA}  END;;
+
+    #  IF([#MES]=1,[#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN])
+  }
+
+  measure: Z_BUD_NATIONAL_AMOUNT {
+    label: "Z_BUD  NATIONAL AMOUNT"
+    type: number
+    sql: ${BUD_NATIONAL_AMOUNT_MTD}/1000;;
+
+    #  [#BUD NATIONAL AMOUNT_MTD]/1000
+
+  }
+
+  measure: VS_BUD_VAL {
+    label: "% VS BUD VAL"
+    type: number
+    sql: CASE WHEN ${NATIONAL_AMOUNT_MTD} > 0 AND ${Z_BUD_NATIONAL_AMOUNT} = 0 THEN 1
+              WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${Z_BUD_NATIONAL_AMOUNT} > 0 THEN -1
+              WHEN (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1
+             END;;
+    value_format: "0.00\%"
+
+   # IF([#NATIONAL AMOUNT MTD] >0 and([#Z_BUD  NATIONAL AMOUNT]) = 0 ,1  ,
+   # IF([#NATIONAL AMOUNT MTD] = 0and ([#Z_BUD  NATIONAL AMOUNT]) >0,-1 ,
+  # IF(([#NATIONAL AMOUNT MTD]  /([#Z_BUD  NATIONAL AMOUNT]))-1 = -1 ,0 ,  ([#NATIONAL AMOUNT MTD] /([#Z_BUD  NATIONAL AMOUNT]))-1)))
+
+
+  }
+
+
+
+  measure: EXPORT_QTY_MTD {
+    label: "EXPORT QTY_MTD"
+    type: sum
+    sql: ${bill_qty} ;;
+    filters: [distr_chan: "20"]
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    drill_fields: [detail*]
+  }
+
+  measure: EXPORT_QTY_MTD_YEAR_ANT {
+    label: "EXPORT QTY_MTD_AÑO ANT"
+    type: sum
+    sql: ${bill_qty} ;;
+    filters: [distr_chan: "20"]
+
+    filters: {
+      field: is_previous_period
+      value: "yes"
+    }
+
+    drill_fields: [detail*]
+  }
+
+
+  measure: VS_QTY_EXP {
+    label: "% VS QTY EXP"
+    type: number
+    sql: CASE WHEN ${EXPORT_QTY_MTD} > 0 AND ${EXPORT_QTY_MTD_YEAR_ANT} = 0 THEN 1
+              WHEN ${EXPORT_QTY_MTD} = 0 AND ${EXPORT_QTY_MTD_YEAR_ANT} > 0 THEN -1
+              WHEN (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0)) = 0 THEN 0 ELSE (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0))  END;;
+    value_format: "0.00\%"
+
+    #IF( [#EXPORT QTY_MTD] >0 and([#EXPORT QTY_MTD_AÑO ANT]) = 0 ,1  ,
+    #IF([#EXPORT QTY_MTD] = 0and ([#EXPORT QTY_MTD_AÑO ANT]) >0,-1 ,
+    #IF(([#EXPORT QTY_MTD]  /([#EXPORT QTY_MTD_AÑO ANT]))-1 = -1 ,0 ,    ([#EXPORT QTY_MTD] /([#EXPORT QTY_MTD_AÑO ANT]))-1)))
+
+  }
+
+
+  measure: EXPORT_BUD_QTY_MTD {
+    label: "EXPORT BUD QTY MTD"
+    type: sum
+    sql: ${bill_qty} ;;
+    filters: [distr_chan: "20"]
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    drill_fields: [detail*]
+  }
+
+
+  measure: BUD_DIA_MES_EXPORT_QTY {
+    label: "BUD_DÍA_MES_EXPORT_QTY"
+    type: number
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${EXPORT_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 2 THEN ${EXPORT_BUD_QTY_MTD}/28
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 3 THEN ${EXPORT_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 4 THEN ${EXPORT_BUD_QTY_MTD}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 5 THEN ${EXPORT_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 6 THEN ${EXPORT_BUD_QTY_MTD}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 7 THEN ${EXPORT_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 8 THEN ${EXPORT_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 9 THEN ${EXPORT_BUD_QTY_MTD}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 10 THEN ${EXPORT_BUD_QTY_MTD}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 11 THEN ${EXPORT_BUD_QTY_MTD}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 12 THEN ${EXPORT_BUD_QTY_MTD}/31
+              ELSE ${EXPORT_BUD_QTY_MTD}
+              END;;
+
+  }
+
+
+  measure: BUD_EXPORT_QTY_MTD {
+    label: "BUD EXPORT QTY_MTD"
+    type: number
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_QTY}* ${Agregacion_DIA}
+      else ${BUD_DIA_MES_EXPORT_QTY}* ${Agregacion_DIA}  END;;
+
+    # IF([#MES]=1,[#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN])
+
+  }
+
+
+
+  measure: VS_BUD_QTY_EXP {
+    label: "% VS BUD QTY EXP"
+    type: number
+    sql: CASE WHEN ${EXPORT_QTY_MTD} > 0 AND ${BUD_EXPORT_QTY_MTD} = 0 THEN 1
+              WHEN ${EXPORT_QTY_MTD} = 0 AND ${BUD_EXPORT_QTY_MTD} > 0 THEN -1
+              WHEN (${EXPORT_QTY_MTD} /  NULLIF (${BUD_EXPORT_QTY_MTD},0))-1=-1 THEN 0 ELSE (${EXPORT_QTY_MTD} /  NULLIF (${BUD_EXPORT_QTY_MTD},0))-1
+             END;;
+    value_format: "0.00\%"
+
+    # IF( [#EXPORT QTY_MTD] >0 and([#BUD EXPORT QTY_MTD]) = 0 ,1  ,
+    #IF([#EXPORT QTY_MTD] = 0and ([#BUD EXPORT QTY_MTD]) >0,-1 ,
+    #IF(([#EXPORT QTY_MTD]  /([#BUD EXPORT QTY_MTD]))-1 = -1 ,0 ,    ([#EXPORT QTY_MTD] /([#BUD EXPORT QTY_MTD]))-1)))
+  }
+
+
+  measure: EXPORT_AMOUNT_MTD {
+    label: "EXPORT AMOUNT MTD"
+    type: sum
+    sql: ${znetval}/1000 ;;
+    filters: [distr_chan: "20"]
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    drill_fields: [detail*]
+
+   # [#EXPORT AMOUNT_MTD_MIL]/1000
+   # [#EXPORT AMOUNT_MTD_MIL]/1000
+
+  }
+
+  measure: EXPORT_AMOUNT_MTDY {
+    label: "EXPORT AMOUNT MTDY"
+    type: sum
+    sql: ${znetval}/1000 ;;
+    filters: [distr_chan: "20"]
+
+    filters: {
+      field: is_previous_period
+      value: "yes"
+    }
+
+    drill_fields: [detail*]
+  }
+
+
+  measure: VS_VAL_EXP {
+    label: "% VS VAL EXP"
+    type: number
+    sql: CASE WHEN ${EXPORT_AMOUNT_MTD} > 1 AND ${EXPORT_AMOUNT_MTDY} = 0 THEN 1
+              WHEN ${EXPORT_AMOUNT_MTD} = 0 AND ${EXPORT_AMOUNT_MTDY} > 0 THEN -1
+              WHEN (${EXPORT_AMOUNT_MTD}/NULLIF(${EXPORT_AMOUNT_MTDY},0)) -1= 0 THEN 0 ELSE (${EXPORT_AMOUNT_MTD}/NULLIF(${EXPORT_AMOUNT_MTDY},0)) -1 END;;
+    value_format: "0.00\%"
+
+  }
+
+
+  measure: EXPORT_BUD_AMOUNT_MTD_MIL {
+    label: "EXPORT BUD AMOUNT MTD MIL"
+    type: sum
+    sql: ${znetval} ;;
+    filters: [distr_chan: "20"]
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+    drill_fields: [detail*]
+  }
+
+
+  measure: BUD_DIA_MES_EXPORT_AMOUNT {
+    label: "BUD_DÍA_MES_EXPORT_AMOUNT"
+    type: number
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 2 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/28
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 3 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 4 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 5 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 6 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 7 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 8 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 9 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 10 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/31
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 11 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/30
+              WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 12 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/31
+              ELSE ${EXPORT_BUD_AMOUNT_MTD_MIL}
+              END;;
+
+  }
+
+
+
+  measure: BUD_EXPORT_AMOUNT_MTD {
+    label: "BUD EXPORT AMOUNT_MTD"
+    type: number
+    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_AMOUNT}* ${Agregacion_DIA}
+      else ${BUD_DIA_MES_EXPORT_AMOUNT}* ${Agregacion_DIA}  END;;
+
+    # IF([#MES]=1,[#BUD_DÍA_MES_EXPORT_AMOUNT]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_EXPORT_AMOUNT]*[#DÍA_SELECCIÓN])
+  }
+
+
+  measure:  Z_BUD_EXPORT_AMOUNT {
+    label: "Z_BUD  EXPORT AMOUNT"
+    type: number
+    sql: ${BUD_EXPORT_AMOUNT_MTD}/1000;;
+
+    #   [#BUD EXPORT AMOUNT_MTD] /1000
+
+  }
+
+
+
+
+
+  measure: VS_BUD_VAL_EXP {
+    label: "% VS BUD VAL EXP"
+    type: number
+    sql: CASE WHEN ${EXPORT_AMOUNT_MTD} > 0 AND ${Z_BUD_EXPORT_AMOUNT} = 0 THEN 1
+              WHEN ${EXPORT_AMOUNT_MTD} = 0 AND ${Z_BUD_EXPORT_AMOUNT} > 0 THEN -1
+              WHEN (${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1=-1 THEN 0 ELSE (${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1
+             END;;
+    value_format: "0.00\%"
+
+    #IF( [#EXPORT AMOUNT MTD] >0 and([#Z_BUD  EXPORT AMOUNT]) = 0 ,1  ,
+    #IF([#EXPORT AMOUNT MTD] = 0and ([#Z_BUD  EXPORT AMOUNT]) >0,-1 ,
+    #IF(([#EXPORT AMOUNT MTD]  /([#Z_BUD  EXPORT AMOUNT]))-1 = -1 ,0 ,  ([#EXPORT AMOUNT MTD] /([#Z_BUD  EXPORT AMOUNT]))-1)))
+
+  }
+
+
+
+  measure: TOTAL_QTY {
+    label: "TOTAL QTY"
+    type: number
+    sql: ${NATIONAL_QTY_MTD} + ${EXPORT_QTY_MTD} ;;
+
+    drill_fields: [detail*]
+  }
+
+
+
+  measure: TOTAL_QTY_YEAR_ANT {
+    label: "TOTAL QTY AÑO ANT"
+    type: number
+    sql: ${NATIONAL_QTY_MTDY} + ${EXPORT_QTY_MTD_YEAR_ANT} ;;
+
+    drill_fields: [detail*]
+  }
+
+  measure: _VS_YEAR_ANT_QTY_T {
+    label: "% VS AÑO ANT QTY T"
+    type: number
+    sql: CASE WHEN ${TOTAL_QTY} > 0 AND ${TOTAL_QTY_YEAR_ANT} = 0 THEN 1
+              WHEN ${TOTAL_QTY} = 0 AND ${TOTAL_QTY_YEAR_ANT} > 0 THEN -1
+              WHEN (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0)) * 100 = 0 THEN 0 ELSE (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0)) *100  END;;
+    value_format: "0.00\%"
+
+    #IF( [#TOTAL QTY] >0 and([#TOTAL QTY AÑO ANT]) = 0 ,1  ,
+    #IF([#TOTAL QTY] = 0and ([#TOTAL QTY AÑO ANT]) >0,-1 ,
+    #IF(([#TOTAL QTY] /([#TOTAL QTY AÑO ANT]))-1 = -1 ,0 ,    ([#TOTAL QTY] /([#TOTAL QTY AÑO ANT]))-1)))
+
+
+  }
+
+
+  measure: BUD_TOTAL_QTY {
+    label: "BUD TOTAL QTY"
+    type: number
+    sql: ${NATIONAL_BUD_QTY_MTD} + ${EXPORT_BUD_QTY_MTD} ;;
+    #[#NATIONAL BUD QTY MTD]+ [#EXPORT BUD QTY MTD]
+
+    drill_fields: [detail*]
+  }
+
+
+  measure: VS_BUD_QTY_T {
+    label: "% VS BUD QTY T"
+    type: number
+    sql: CASE WHEN ${TOTAL_QTY} > 0 AND ${BUD_TOTAL_QTY} = 0 THEN 1
+              WHEN ${TOTAL_QTY} = 0 AND ${BUD_TOTAL_QTY} > 0 THEN -1
+              WHEN (${TOTAL_QTY} /  NULLIF (${BUD_TOTAL_QTY},0))-1=-1 THEN 0 ELSE (${TOTAL_QTY} /  NULLIF (${BUD_TOTAL_QTY},0))-1
+             END;;
+    value_format: "0.00\%"
+
+    #IF( [#TOTAL QTY] >0 and([#BUD TOTAL QTY]) = 0 ,1  ,
+    #IF([#TOTAL QTY] = 0and ([#BUD TOTAL QTY]) >0,-1 ,
+    #IF(([#TOTAL QTY] /([#BUD TOTAL QTY]))-1 = -1 ,0 ,     ([#TOTAL QTY] /([#BUD TOTAL QTY]))-1)))
+
+
+  }
+
+
+  measure: TOTAL_AMOUNT {
+    label: "TOTAL AMOUNT"
+    type: number
+    sql: ${NATIONAL_AMOUNT_MTD} + ${EXPORT_AMOUNT_MTD} ;;
+    #[#NATIONAL AMOUNT MTD]+[#EXPORT AMOUNT MTD]
+
+    drill_fields: [detail*]
+  }
+
+
+  measure: TOTAL_AMOUNT_YEAR_ANT {
+    label: "TOTAL AMOUNT AÑO ANT"
+    type: number
+    sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${Z_BUD_EXPORT_AMOUNT} ;;
+    #[#NATIONAL AMOUNT MTD AÑO ANT]+[#EXPORT AMOUNT MTD AÑO ANT]
+
+    drill_fields: [detail*]
+  }
+
+  measure: VS_YEAR_ANT_VAL_T {
+    label: "% VS AÑO ANT VAL T"
+    type: number
+    sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${TOTAL_AMOUNT_YEAR_ANT} = 0 THEN 1
+              WHEN ${TOTAL_AMOUNT} = 0 AND ${TOTAL_AMOUNT_YEAR_ANT} > 0 THEN -1
+              WHEN (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))*100=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))*100
+             END;;
+    value_format: "0.00\%"
+
+    #IF( [#TOTAL AMOUNT] >0 and([#TOTAL AMOUNT AÑO ANT]) = 0 ,1  ,
+    #IF([#TOTAL AMOUNT] = 0and ([#TOTAL AMOUNT AÑO ANT]) >0,-1 ,
+    #IF(([#TOTAL AMOUNT] /([#TOTAL AMOUNT AÑO ANT]))-1 = -1 ,0 ,    ([#TOTAL AMOUNT] /([#TOTAL AMOUNT AÑO ANT]))-1)))
+
+
+
+  }
+
+
+  measure:  BUD_TOTAL_AMOUNT {
+    label: "BUD TOTAL AMOUNT"
+    type: number
+    sql: ${Z_BUD_NATIONAL_AMOUNT} + ${Z_BUD_EXPORT_AMOUNT} ;;
+
+    #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
+
+    drill_fields: [detail*]
+  }
+
+
+  measure: VS_BUD_T {
+    label: "% VS BUD T"
+    type: number
+    sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${BUD_TOTAL_AMOUNT} = 0 THEN 1
+              WHEN ${TOTAL_AMOUNT} = 0 AND ${BUD_TOTAL_AMOUNT} > 0 THEN -1
+              WHEN (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))*100=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))*100
+             END;;
+    value_format: "0.00\%"
+
+    #IF( [#TOTAL AMOUNT] >0 and([#BUD TOTAL AMOUNT]) = 0 ,1  ,
+    #IF([#TOTAL AMOUNT] = 0and ([#BUD TOTAL AMOUNT]) >0,-1 ,
+    #IF(([#TOTAL AMOUNT] /([#BUD TOTAL AMOUNT]))-1 = -1 ,0 ,    ([#TOTAL AMOUNT] /([#BUD TOTAL AMOUNT]))-1)))
+
+
+
 
   }
 
