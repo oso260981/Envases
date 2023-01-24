@@ -392,6 +392,8 @@ view: rpt_ventas {
 
     filters: [distr_chan: "10"]
     drill_fields: [detail*]
+
+    value_format: "#,##0.00"
   }
 
   measure: NATIONAL_QTY_MTDY {
