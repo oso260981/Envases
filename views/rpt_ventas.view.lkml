@@ -230,12 +230,12 @@ view: rpt_ventas {
 
   dimension: category {
     type: string
-    sql: ${TABLE}.CATEGORY ;;
+    sql: case when ${TABLE}.CATEGORY is null then 'Otros' else ${TABLE}.CATEGORY  end ;;
   }
 
   dimension: subcategory {
     type: string
-    sql: ${TABLE}.SUBCATEGORY ;;
+    sql:  ${TABLE}.SUBCATEGORY ;;
   }
 
   dimension_group: fecha {
@@ -1006,7 +1006,7 @@ view: rpt_ventas {
 
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR{
-    label: "NATIONAL AMOUNT MTD AÑO ANTD200"
+    label: "NATIONAL AMOUNT MTD AÑO ANTD"
 
     type: sum
     sql: ${znetval}/1000 ;;
@@ -1025,7 +1025,7 @@ view: rpt_ventas {
 
   measure: EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR {
     label: "EXPORT AMOUNT MTD AÑO ANT"
-    hidden: yes
+
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "20"]
@@ -1057,7 +1057,8 @@ view: rpt_ventas {
     label: "z_BUD NATIONAL AMOUNT"
 
     type: sum
-    sql: ${znetval}/1000 ;;
+
+    sql: ${bill_qty}*0 ;;
 
     filters: {
       field: is_previous_period_year
@@ -1073,9 +1074,9 @@ view: rpt_ventas {
 
   measure: z_BUD_EXPORT_AMOUNT {
     label: "z_BUD EXPORT AMOUNT"
-    hidden: yes
+
     type: sum
-    sql: ${znetval} ;;
+    sql: ${znetval}*0 ;;
     filters: [distr_chan: "20"]
 
     filters: {
