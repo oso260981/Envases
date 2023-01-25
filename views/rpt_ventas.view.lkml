@@ -338,7 +338,8 @@ view: rpt_ventas {
     hidden: yes
     type: yesno
     # sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
-    sql: ${created_date} >= ${previous_start_date_year} AND ${created_date} <= ${previous_end_date_year} ;;
+    #sql: ${created_date} >= ${previous_start_date_year} AND ${created_date} <= ${previous_end_date_year} ;;
+    sql: ${created_year} = EXTRACT(YEAR FROM ${filter_end_date_date})-1  ;;
   }
 
   dimension: timeframes {
@@ -473,6 +474,7 @@ view: rpt_ventas {
 
     filters: [distr_chan: "10"]
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
   measure: BUD_DIA_MES_NATIONAL_QTY {
@@ -501,6 +503,7 @@ view: rpt_ventas {
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION_2}
     else ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION}  END;;
+    value_format: "#,##0.00"
 
     }
 
@@ -528,6 +531,7 @@ view: rpt_ventas {
 
     filters: [distr_chan: "10"]
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT {
@@ -543,6 +547,7 @@ view: rpt_ventas {
 
     filters: [distr_chan: "10"]
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
   measure: VS_VAL {
@@ -565,6 +570,7 @@ view: rpt_ventas {
       field: is_current_period
       value: "yes"
     }
+    value_format: "#,##0.00"
   }
 
 
@@ -596,6 +602,8 @@ view: rpt_ventas {
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_NATIONAL_AMOUNT} * ${DIA_SELECCION} END;;
 
+    value_format: "#,##0.00"
+
     #  IF([#MES]=1,[#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_NATIONAL_AMOUNT]*[#DÍA_SELECCIÓN])
   }
 
@@ -605,7 +613,7 @@ view: rpt_ventas {
     sql: ${BUD_NATIONAL_AMOUNT_MTD}/1000;;
 
     #  [#BUD NATIONAL AMOUNT_MTD]/1000
-
+    value_format: "#,##0.00"
   }
 
   measure: VS_BUD_VAL {
@@ -638,6 +646,7 @@ view: rpt_ventas {
     }
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
   measure: EXPORT_QTY_MTD_YEAR_ANT {
@@ -652,6 +661,7 @@ view: rpt_ventas {
     }
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -682,6 +692,7 @@ view: rpt_ventas {
     }
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -712,6 +723,7 @@ view: rpt_ventas {
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION}  END;;
 
+    value_format: "#,##0.00"
     # IF([#MES]=1,[#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN])
 
   }
@@ -745,6 +757,7 @@ view: rpt_ventas {
     }
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
 
    # [#EXPORT AMOUNT_MTD_MIL]/1000
    # [#EXPORT AMOUNT_MTD_MIL]/1000
@@ -763,6 +776,7 @@ view: rpt_ventas {
     }
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -788,6 +802,7 @@ view: rpt_ventas {
       value: "yes"
     }
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -819,6 +834,8 @@ view: rpt_ventas {
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION}  END;;
 
+    value_format: "#,##0.00"
+
     # IF([#MES]=1,[#BUD_DÍA_MES_EXPORT_AMOUNT]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_EXPORT_AMOUNT]*[#DÍA_SELECCIÓN])
   }
 
@@ -829,7 +846,7 @@ view: rpt_ventas {
     sql: ${BUD_EXPORT_AMOUNT_MTD}/1000;;
 
     #   [#BUD EXPORT AMOUNT_MTD] /1000
-
+    value_format: "#,##0.00"
   }
 
 
@@ -859,6 +876,7 @@ view: rpt_ventas {
     sql: ${NATIONAL_QTY_MTD} + ${EXPORT_QTY_MTD} ;;
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -869,6 +887,7 @@ view: rpt_ventas {
     sql: ${NATIONAL_QTY_MTDY} + ${EXPORT_QTY_MTD_YEAR_ANT} ;;
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
   measure: _VS_YEAR_ANT_QTY_T {
@@ -894,6 +913,7 @@ view: rpt_ventas {
     #[#NATIONAL BUD QTY MTD]+ [#EXPORT BUD QTY MTD]
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -921,6 +941,7 @@ view: rpt_ventas {
     #[#NATIONAL AMOUNT MTD]+[#EXPORT AMOUNT MTD]
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -931,6 +952,7 @@ view: rpt_ventas {
     #[#NATIONAL AMOUNT MTD AÑO ANT]+[#EXPORT AMOUNT MTD AÑO ANT]
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
   measure: VS_YEAR_ANT_VAL_T {
@@ -959,6 +981,7 @@ view: rpt_ventas {
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -983,7 +1006,7 @@ view: rpt_ventas {
 
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR{
-    label: "NATIONAL AMOUNT MTD AÑO ANTD"
+    label: "NATIONAL AMOUNT MTD AÑO ANTD200"
 
     type: sum
     sql: ${znetval}/1000 ;;
@@ -995,6 +1018,7 @@ view: rpt_ventas {
 
     filters: [distr_chan: "10"]
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -1011,6 +1035,7 @@ view: rpt_ventas {
       value: "yes"
     }
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -1023,6 +1048,7 @@ view: rpt_ventas {
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
@@ -1040,6 +1066,7 @@ view: rpt_ventas {
 
     filters: [distr_chan: "10"]
     drill_fields: [detail*]
+    value_format: "#,##0.00"
   }
 
 
