@@ -303,6 +303,23 @@ view: rpt_ventas {
     # sql: DATE_ADD(day, - ${interval}, ${filter_start_date_raw});;
   }
 
+
+  dimension: previous_start_date_year {
+    hidden: yes
+    type: string
+    sql: DATE_ADD(DATE ${filter_start_date_raw}, INTERVAL -1 year);;
+
+    # sql: DATE_ADD(day, - ${interval}, ${filter_start_date_raw});;
+  }
+
+  dimension: previous_end_date_year {
+    hidden: yes
+    type: string
+    sql: DATE_ADD(DATE ${filter_end_date_raw}, INTERVAL -1 year);;
+
+    # sql: DATE_ADD(day, - ${interval}, ${filter_start_date_raw});;
+  }
+
   dimension: is_current_period {
     hidden: yes
     type: yesno
@@ -314,6 +331,14 @@ view: rpt_ventas {
     type: yesno
    # sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
     sql: ${created_date} >= ${previous_start_date} AND ${created_date} <= ${previous_end_date} ;;
+  }
+
+
+  dimension: is_previous_period_year {
+    hidden: yes
+    type: yesno
+    # sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
+    sql: ${created_date} >= ${previous_start_date_year} AND ${created_date} <= ${previous_end_date_year} ;;
   }
 
   dimension: timeframes {
@@ -956,6 +981,94 @@ view: rpt_ventas {
   }
 
 
+
+  measure: NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR{
+    label: "NATIONAL AMOUNT MTD AÑO ANTD"
+
+    type: sum
+    sql: ${znetval}/1000 ;;
+
+    filters: {
+      field: is_previous_period_year
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    drill_fields: [detail*]
+  }
+
+
+
+  measure: EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR {
+    label: "EXPORT AMOUNT MTD AÑO ANT"
+    hidden: yes
+    type: sum
+    sql: ${znetval} ;;
+    filters: [distr_chan: "20"]
+
+    filters: {
+      field: is_previous_period_year
+      value: "yes"
+    }
+    drill_fields: [detail*]
+  }
+
+
+
+  measure:  TOTAL_AMOUNT_YEAR_ANT_YEAR {
+    label: "TOTAL AMOUNT AÑO ANT"
+    type: number
+    sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR} + ${EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR} ;;
+
+    #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
+
+    drill_fields: [detail*]
+  }
+
+
+
+  measure: z_BUD_NATIONAL_AMOUNT{
+    label: "z_BUD NATIONAL AMOUNT"
+
+    type: sum
+    sql: ${znetval}/1000 ;;
+
+    filters: {
+      field: is_previous_period_year
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    drill_fields: [detail*]
+  }
+
+
+
+  measure: z_BUD_EXPORT_AMOUNT {
+    label: "z_BUD EXPORT AMOUNT"
+    hidden: yes
+    type: sum
+    sql: ${znetval} ;;
+    filters: [distr_chan: "20"]
+
+    filters: {
+      field: is_previous_period_year
+      value: "yes"
+    }
+    drill_fields: [detail*]
+  }
+
+
+
+  measure:  BUD_TOTAL_AMOUNT_YEAR{
+    label: "BUD TOTAL AMOUNT"
+    type: number
+    sql: ${z_BUD_NATIONAL_AMOUNT} + ${z_BUD_EXPORT_AMOUNT} ;;
+
+    #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
+
+    drill_fields: [detail*]
+  }
 
 
 
