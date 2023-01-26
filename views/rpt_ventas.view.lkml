@@ -40,6 +40,11 @@ view: rpt_ventas {
 
 
 
+  dimension: Client {
+    label: "Cliente"
+    type: number
+    sql: ${TABLE}.CLIENT ;;
+  }
 
 
   dimension: year {
@@ -431,7 +436,7 @@ view: rpt_ventas {
     }
 
     filters: [distr_chan: "10"]
-    drill_fields: [detail*]
+    drill_fields: [ Client]
 
     value_format: "#,##0.00"
   }
@@ -1139,6 +1144,7 @@ view: rpt_ventas {
 
   set: detail {
     fields: [
+      Client,
       net_wgt_dl,
       unit_of_wt,
       stat_curr,
