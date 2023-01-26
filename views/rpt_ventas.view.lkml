@@ -42,7 +42,7 @@ view: rpt_ventas {
 
   dimension: Client {
     label: "Cliente"
-    type: number
+    type: string
     sql: ${TABLE}.CLIENT ;;
   }
 
