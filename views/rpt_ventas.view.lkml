@@ -436,7 +436,7 @@ view: rpt_ventas {
     }
 
     filters: [distr_chan: "10"]
-    drill_fields: [ Client]
+    drill_fields: [ Client,NATIONAL_QTY_MTD]
 
     value_format: "#,##0.00"
   }
