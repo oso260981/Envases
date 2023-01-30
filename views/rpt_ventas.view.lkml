@@ -452,7 +452,7 @@ view: rpt_ventas {
     }
 
     filters: [distr_chan: "10"]
-    drill_fields: [detail*]
+     drill_fields: [ Client,NATIONAL_QTY_MTDY]
     value_format: "#,##0"
   }
 
@@ -464,6 +464,7 @@ view: rpt_ventas {
               WHEN ${NATIONAL_QTY_MTD} = 0 AND ${NATIONAL_QTY_MTDY} > 0 THEN -1
               WHEN (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0)) = 0 THEN 0 ELSE (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0))  END *100;;
     value_format: "0.00\%"
+    drill_fields: [ Client,VS_QTY]
   }
 
 
@@ -478,8 +479,10 @@ view: rpt_ventas {
     }
 
     filters: [distr_chan: "10"]
-    drill_fields: [detail*]
+     drill_fields: [ Client,NATIONAL_BUD_QTY_MTD]
     value_format: "#,##0.00"
+
+
   }
 
   measure: BUD_DIA_MES_NATIONAL_QTY {
@@ -535,7 +538,7 @@ view: rpt_ventas {
     }
 
     filters: [distr_chan: "10"]
-    drill_fields: [detail*]
+     drill_fields: [ Client,NATIONAL_AMOUNT_MTD]
     value_format: "#,##0.00"
   }
 
@@ -551,7 +554,7 @@ view: rpt_ventas {
     }
 
     filters: [distr_chan: "10"]
-    drill_fields: [detail*]
+      drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT]
     value_format: "#,##0.00"
   }
 
@@ -650,7 +653,7 @@ view: rpt_ventas {
       value: "yes"
     }
 
-    drill_fields: [detail*]
+    drill_fields: [ Client,EXPORT_QTY_MTD]
     value_format: "#,##0"
   }
 
@@ -665,7 +668,7 @@ view: rpt_ventas {
       value: "yes"
     }
 
-    drill_fields: [detail*]
+      drill_fields: [ Client,EXPORT_QTY_MTD_YEAR_ANT]
     value_format: "#,##0.00"
   }
 
@@ -696,7 +699,7 @@ view: rpt_ventas {
       value: "yes"
     }
 
-    drill_fields: [detail*]
+      drill_fields: [ Client,EXPORT_BUD_QTY_MTD]
     value_format: "#,##0.00"
   }
 
@@ -744,6 +747,8 @@ view: rpt_ventas {
              END *100 ;;
     value_format: "0.00\%"
 
+    drill_fields: [ Client,VS_BUD_QTY_EXP]
+
     # IF( [#EXPORT QTY_MTD] >0 and([#BUD EXPORT QTY_MTD]) = 0 ,1  ,
     #IF([#EXPORT QTY_MTD] = 0and ([#BUD EXPORT QTY_MTD]) >0,-1 ,
     #IF(([#EXPORT QTY_MTD]  /([#BUD EXPORT QTY_MTD]))-1 = -1 ,0 ,    ([#EXPORT QTY_MTD] /([#BUD EXPORT QTY_MTD]))-1)))
@@ -761,7 +766,7 @@ view: rpt_ventas {
       value: "yes"
     }
 
-    drill_fields: [detail*]
+     drill_fields: [ Client,EXPORT_AMOUNT_MTD]
     value_format: "#,##0.00"
 
    # [#EXPORT AMOUNT_MTD_MIL]/1000
@@ -780,7 +785,7 @@ view: rpt_ventas {
       value: "yes"
     }
 
-    drill_fields: [detail*]
+     drill_fields: [ Client,EXPORT_AMOUNT_MTDY]
     value_format: "#,##0.00"
   }
 
@@ -792,7 +797,7 @@ view: rpt_ventas {
               WHEN ${EXPORT_AMOUNT_MTD} = 0 AND ${EXPORT_AMOUNT_MTDY} > 0 THEN -1
               WHEN (${EXPORT_AMOUNT_MTD}/NULLIF(${EXPORT_AMOUNT_MTDY},0)) -1= 0 THEN 0 ELSE (${EXPORT_AMOUNT_MTD}/NULLIF(${EXPORT_AMOUNT_MTDY},0)) -1 END *100;;
     value_format: "0.00\%"
-
+    drill_fields: [ Client,VS_VAL_EXP]
   }
 
 
@@ -806,7 +811,7 @@ view: rpt_ventas {
       field: is_current_period
       value: "yes"
     }
-    drill_fields: [detail*]
+    drill_fields: [ Client,EXPORT_BUD_AMOUNT_MTD_MIL]
     value_format: "#,##0.00"
   }
 
@@ -840,6 +845,7 @@ view: rpt_ventas {
       else ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION}  END;;
 
     value_format: "#,##0.00"
+    drill_fields: [ Client,BUD_EXPORT_AMOUNT_MTD]
 
     # IF([#MES]=1,[#BUD_DÍA_MES_EXPORT_AMOUNT]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_EXPORT_AMOUNT]*[#DÍA_SELECCIÓN])
   }
@@ -867,6 +873,8 @@ view: rpt_ventas {
              END *100 ;;
     value_format: "0.00\%"
 
+    drill_fields: [ Client,VS_BUD_VAL_EXP]
+
     #IF( [#EXPORT AMOUNT MTD] >0 and([#Z_BUD  EXPORT AMOUNT]) = 0 ,1  ,
     #IF([#EXPORT AMOUNT MTD] = 0and ([#Z_BUD  EXPORT AMOUNT]) >0,-1 ,
     #IF(([#EXPORT AMOUNT MTD]  /([#Z_BUD  EXPORT AMOUNT]))-1 = -1 ,0 ,  ([#EXPORT AMOUNT MTD] /([#Z_BUD  EXPORT AMOUNT]))-1)))
@@ -880,7 +888,7 @@ view: rpt_ventas {
     type: number
     sql: ${NATIONAL_QTY_MTD} + ${EXPORT_QTY_MTD} ;;
 
-    drill_fields: [detail*]
+      drill_fields: [ Client,TOTAL_QTY]
     value_format: "#,##0"
   }
 
@@ -891,7 +899,7 @@ view: rpt_ventas {
     type: number
     sql: ${NATIONAL_QTY_MTDY} + ${EXPORT_QTY_MTD_YEAR_ANT} ;;
 
-    drill_fields: [detail*]
+    drill_fields: [ Client,TOTAL_QTY_YEAR_ANT]
     value_format: "#,##0.00"
   }
 
@@ -902,6 +910,8 @@ view: rpt_ventas {
               WHEN ${TOTAL_QTY} = 0 AND ${TOTAL_QTY_YEAR_ANT} > 0 THEN -1
               WHEN (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0))  = 0 THEN 0 ELSE (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0))   END *100;;
     value_format: "0.00\%"
+
+    drill_fields: [ Client,_VS_YEAR_ANT_QTY_T]
 
     #IF( [#TOTAL QTY] >0 and([#TOTAL QTY AÑO ANT]) = 0 ,1  ,
     #IF([#TOTAL QTY] = 0and ([#TOTAL QTY AÑO ANT]) >0,-1 ,
@@ -917,7 +927,7 @@ view: rpt_ventas {
     sql: ${NATIONAL_BUD_QTY_MTD} + ${EXPORT_BUD_QTY_MTD} ;;
     #[#NATIONAL BUD QTY MTD]+ [#EXPORT BUD QTY MTD]
 
-    drill_fields: [detail*]
+   drill_fields: [ Client,BUD_TOTAL_QTY]
     value_format: "#,##0"
   }
 
@@ -930,6 +940,8 @@ view: rpt_ventas {
               WHEN (${TOTAL_QTY} /  NULLIF (${BUD_TOTAL_QTY},0))-1=-1 THEN 0 ELSE (${TOTAL_QTY} /  NULLIF (${BUD_TOTAL_QTY},0))-1
              END *100 ;;
     value_format: "0.00\%"
+
+    drill_fields: [ Client,VS_BUD_QTY_T]
 
     #IF( [#TOTAL QTY] >0 and([#BUD TOTAL QTY]) = 0 ,1  ,
     #IF([#TOTAL QTY] = 0and ([#BUD TOTAL QTY]) >0,-1 ,
@@ -945,7 +957,7 @@ view: rpt_ventas {
     sql: ${NATIONAL_AMOUNT_MTD} + ${EXPORT_AMOUNT_MTD} ;;
     #[#NATIONAL AMOUNT MTD]+[#EXPORT AMOUNT MTD]
 
-    drill_fields: [detail*]
+    drill_fields: [ Client,TOTAL_AMOUNT]
     value_format: "#,##0.00"
   }
 
@@ -956,7 +968,7 @@ view: rpt_ventas {
     sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${Z_BUD_EXPORT_AMOUNT} ;;
     #[#NATIONAL AMOUNT MTD AÑO ANT]+[#EXPORT AMOUNT MTD AÑO ANT]
 
-    drill_fields: [detail*]
+     drill_fields: [ Client,TOTAL_AMOUNT_YEAR_ANT]
     value_format: "#,##0.00"
   }
 
@@ -968,6 +980,9 @@ view: rpt_ventas {
               WHEN (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))
              END *100;;
     value_format: "0.00\%"
+
+    drill_fields: [ Client,VS_YEAR_ANT_VAL_T]
+
 
     #IF( [#TOTAL AMOUNT] >0 and([#TOTAL AMOUNT AÑO ANT]) = 0 ,1  ,
     #IF([#TOTAL AMOUNT] = 0and ([#TOTAL AMOUNT AÑO ANT]) >0,-1 ,
@@ -985,7 +1000,7 @@ view: rpt_ventas {
 
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
-    drill_fields: [detail*]
+      drill_fields: [ Client,BUD_TOTAL_AMOUNT]
     value_format: "#,##0.00"
   }
 
@@ -998,6 +1013,8 @@ view: rpt_ventas {
               WHEN (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))-1
              END * 100;;
     value_format: "0.00\%"
+
+    drill_fields: [ Client,VS_BUD_T]
 
     #IF( [#TOTAL AMOUNT] >0 and([#BUD TOTAL AMOUNT]) = 0 ,1  ,
     #IF([#TOTAL AMOUNT] = 0and ([#BUD TOTAL AMOUNT]) >0,-1 ,
@@ -1022,7 +1039,7 @@ view: rpt_ventas {
     }
 
     filters: [distr_chan: "10"]
-    drill_fields: [detail*]
+       drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR]
     value_format: "#,##0.00"
   }
 
@@ -1039,7 +1056,7 @@ view: rpt_ventas {
       field: is_previous_period_year
       value: "yes"
     }
-    drill_fields: [detail*]
+     drill_fields: [ Client,EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR]
     value_format: "#,##0.00"
   }
 
@@ -1052,7 +1069,7 @@ view: rpt_ventas {
 
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
-    drill_fields: [detail*]
+     drill_fields: [ Client,TOTAL_AMOUNT_YEAR_ANT_YEAR]
     value_format: "#,##0.00"
   }
 
@@ -1071,7 +1088,7 @@ view: rpt_ventas {
     }
 
     filters: [distr_chan: "10"]
-    drill_fields: [detail*]
+    drill_fields: [ Client,z_BUD_NATIONAL_AMOUNT]
     value_format: "#,##0.00"
   }
 
@@ -1088,7 +1105,7 @@ view: rpt_ventas {
       field: is_previous_period_year
       value: "yes"
     }
-    drill_fields: [detail*]
+     drill_fields: [ Client,z_BUD_EXPORT_AMOUNT]
   }
 
 
@@ -1100,7 +1117,7 @@ view: rpt_ventas {
 
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
-    drill_fields: [detail*]
+   drill_fields: [ Client,BUD_TOTAL_AMOUNT_YEAR]
   }
 
 
