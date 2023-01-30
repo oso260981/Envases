@@ -428,7 +428,7 @@ view: rpt_ventas {
   measure: NATIONAL_QTY_MTD {
     label: "NATIONAL QTY_MTD"
     type: sum
-    sql: ${bill_qty} ;;
+    sql: ${bill_qty}/1000 ;;
 
     filters: {
       field: is_current_period
@@ -438,13 +438,13 @@ view: rpt_ventas {
     filters: [distr_chan: "10"]
     drill_fields: [ Client,NATIONAL_QTY_MTD]
 
-    value_format: "#,##0.00"
+    value_format: "#,##0"
   }
 
   measure: NATIONAL_QTY_MTDY {
     label: "NATIONAL QTY_MTD_AÑO ANT"
     type: sum
-    sql: ${bill_qty} ;;
+    sql: ${bill_qty}/1000 ;;
 
     filters: {
       field: is_previous_period
