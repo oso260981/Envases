@@ -255,7 +255,7 @@ view: rpt_ventas {
 
   measure: Total_bill_qty {
     type: sum
-    sql: ${TABLE}.BILL_QTY ;;
+    sql: ${TABLE}.BILL_QTY/1000 ;;
     filters: [distr_chan: "10"]
     drill_fields: [detail*]
   }
@@ -470,7 +470,7 @@ view: rpt_ventas {
   measure: NATIONAL_BUD_QTY_MTD {
     label: "NATIONAL BUD QTY MTD"
     type: sum
-    sql: ${bill_qty} ;;
+    sql: ${bill_qty}/1000 ;;
 
     filters: {
       field: is_current_period
@@ -657,7 +657,7 @@ view: rpt_ventas {
   measure: EXPORT_QTY_MTD_YEAR_ANT {
     label: "EXPORT QTY_MTD_AÑO ANT"
     type: sum
-    sql: ${bill_qty} ;;
+    sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
 
     filters: {
@@ -688,7 +688,7 @@ view: rpt_ventas {
   measure: EXPORT_BUD_QTY_MTD {
     label: "EXPORT BUD QTY MTD"
     type: sum
-    sql: ${bill_qty} ;;
+    sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
 
     filters: {
