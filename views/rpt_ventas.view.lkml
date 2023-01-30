@@ -464,7 +464,7 @@ view: rpt_ventas {
               WHEN ${NATIONAL_QTY_MTD} = 0 AND ${NATIONAL_QTY_MTDY} > 0 THEN -1
               WHEN (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0)) = 0 THEN 0 ELSE (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0))  END *100;;
     value_format: "0.00\%"
-    drill_fields: [ Client,VS_QTY]
+    drill_fields: [ Client,NATIONAL_QTY_MTD,NATIONAL_QTY_MTDY,VS_QTY]
   }
 
 
