@@ -642,7 +642,7 @@ view: rpt_ventas {
   measure: EXPORT_QTY_MTD {
     label: "EXPORT QTY_MTD"
     type: sum
-    sql: ${bill_qty} ;;
+    sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
 
     filters: {
@@ -651,7 +651,7 @@ view: rpt_ventas {
     }
 
     drill_fields: [detail*]
-    value_format: "#,##0.00"
+    value_format: "#,##0"
   }
 
   measure: EXPORT_QTY_MTD_YEAR_ANT {
