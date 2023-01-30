@@ -565,7 +565,7 @@ view: rpt_ventas {
               WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${NATIONAL_AMOUNT_MTD_YEAR_ANT} > 0 THEN -1
               WHEN (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) = 0 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0))  END * 100;;
     value_format: "0.00\%"
-
+    drill_fields: [ Client,NATIONAL_AMOUNT_MTD,NATIONAL_AMOUNT_MTD_YEAR_ANT,VS_VAL]
   }
 
   measure: NATIONAL_BUD_AMOUNT_MTD_MIL {
@@ -680,6 +680,8 @@ view: rpt_ventas {
               WHEN ${EXPORT_QTY_MTD} = 0 AND ${EXPORT_QTY_MTD_YEAR_ANT} > 0 THEN -1
               WHEN (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0)) = 0 THEN 0 ELSE (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0))  END *100;;
     value_format: "0.00\%"
+
+    drill_fields: [ Client,EXPORT_QTY_MTD,EXPORT_QTY_MTD_YEAR_ANT,VS_QTY_EXP]
 
     #IF( [#EXPORT QTY_MTD] >0 and([#EXPORT QTY_MTD_AÑO ANT]) = 0 ,1  ,
     #IF([#EXPORT QTY_MTD] = 0and ([#EXPORT QTY_MTD_AÑO ANT]) >0,-1 ,
@@ -911,7 +913,7 @@ view: rpt_ventas {
               WHEN (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0))  = 0 THEN 0 ELSE (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0))   END *100;;
     value_format: "0.00\%"
 
-    drill_fields: [ Client,_VS_YEAR_ANT_QTY_T]
+    drill_fields: [ Client,TOTAL_QTY,TOTAL_QTY_YEAR_ANT,_VS_YEAR_ANT_QTY_T]
 
     #IF( [#TOTAL QTY] >0 and([#TOTAL QTY AÑO ANT]) = 0 ,1  ,
     #IF([#TOTAL QTY] = 0and ([#TOTAL QTY AÑO ANT]) >0,-1 ,
@@ -941,7 +943,7 @@ view: rpt_ventas {
              END *100 ;;
     value_format: "0.00\%"
 
-    drill_fields: [ Client,VS_BUD_QTY_T]
+    drill_fields: [ Client,TOTAL_QTY,BUD_TOTAL_QTY,VS_BUD_QTY_T]
 
     #IF( [#TOTAL QTY] >0 and([#BUD TOTAL QTY]) = 0 ,1  ,
     #IF([#TOTAL QTY] = 0and ([#BUD TOTAL QTY]) >0,-1 ,
