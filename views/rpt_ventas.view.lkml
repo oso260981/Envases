@@ -524,6 +524,10 @@ view: rpt_ventas {
               WHEN (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0)) -1=-1 THEN 0 ELSE (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1
               END *100 ;;
     value_format: "0.00\%"
+
+
+    drill_fields: [ Client,NATIONAL_QTY_MTD,BUD_NATIONAL_QTY_MTD,VS_BUD_QTY]
+
   }
 
 
@@ -632,6 +636,9 @@ view: rpt_ventas {
               WHEN (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1
              END *100;;
     value_format: "0.00\%"
+
+
+    drill_fields: [ Client,NATIONAL_AMOUNT_MTD,Z_BUD_NATIONAL_AMOUNT,VS_BUD_VAL]
 
    # IF([#NATIONAL AMOUNT MTD] >0 and([#Z_BUD  NATIONAL AMOUNT]) = 0 ,1  ,
    # IF([#NATIONAL AMOUNT MTD] = 0and ([#Z_BUD  NATIONAL AMOUNT]) >0,-1 ,
@@ -749,7 +756,7 @@ view: rpt_ventas {
              END *100 ;;
     value_format: "0.00\%"
 
-    drill_fields: [ Client,VS_BUD_QTY_EXP]
+    drill_fields: [ Client,EXPORT_QTY_MTD,BUD_EXPORT_QTY_MTD,VS_BUD_QTY_EXP]
 
     # IF( [#EXPORT QTY_MTD] >0 and([#BUD EXPORT QTY_MTD]) = 0 ,1  ,
     #IF([#EXPORT QTY_MTD] = 0and ([#BUD EXPORT QTY_MTD]) >0,-1 ,
@@ -799,7 +806,7 @@ view: rpt_ventas {
               WHEN ${EXPORT_AMOUNT_MTD} = 0 AND ${EXPORT_AMOUNT_MTDY} > 0 THEN -1
               WHEN (${EXPORT_AMOUNT_MTD}/NULLIF(${EXPORT_AMOUNT_MTDY},0)) -1= 0 THEN 0 ELSE (${EXPORT_AMOUNT_MTD}/NULLIF(${EXPORT_AMOUNT_MTDY},0)) -1 END *100;;
     value_format: "0.00\%"
-    drill_fields: [ Client,VS_VAL_EXP]
+    drill_fields: [ Client,EXPORT_AMOUNT_MTD,EXPORT_AMOUNT_MTDY,VS_VAL_EXP]
   }
 
 
@@ -875,7 +882,7 @@ view: rpt_ventas {
              END *100 ;;
     value_format: "0.00\%"
 
-    drill_fields: [ Client,VS_BUD_VAL_EXP]
+    drill_fields: [ Client,EXPORT_AMOUNT_MTD,Z_BUD_EXPORT_AMOUNT,VS_BUD_VAL_EXP]
 
     #IF( [#EXPORT AMOUNT MTD] >0 and([#Z_BUD  EXPORT AMOUNT]) = 0 ,1  ,
     #IF([#EXPORT AMOUNT MTD] = 0and ([#Z_BUD  EXPORT AMOUNT]) >0,-1 ,
@@ -890,7 +897,7 @@ view: rpt_ventas {
     type: number
     sql: ${NATIONAL_QTY_MTD} + ${EXPORT_QTY_MTD} ;;
 
-      drill_fields: [ Client,TOTAL_QTY]
+      drill_fields: [ Client,NATIONAL_QTY_MTD,EXPORT_QTY_MTD,TOTAL_QTY]
     value_format: "#,##0"
   }
 
@@ -901,7 +908,7 @@ view: rpt_ventas {
     type: number
     sql: ${NATIONAL_QTY_MTDY} + ${EXPORT_QTY_MTD_YEAR_ANT} ;;
 
-    drill_fields: [ Client,TOTAL_QTY_YEAR_ANT]
+    drill_fields: [ Client,NATIONAL_QTY_MTDY,EXPORT_QTY_MTD_YEAR_ANT,TOTAL_QTY_YEAR_ANT]
     value_format: "#,##0.00"
   }
 
@@ -929,7 +936,7 @@ view: rpt_ventas {
     sql: ${NATIONAL_BUD_QTY_MTD} + ${EXPORT_BUD_QTY_MTD} ;;
     #[#NATIONAL BUD QTY MTD]+ [#EXPORT BUD QTY MTD]
 
-   drill_fields: [ Client,BUD_TOTAL_QTY]
+   drill_fields: [ Client,NATIONAL_BUD_QTY_MTD,EXPORT_BUD_QTY_MTD,BUD_TOTAL_QTY]
     value_format: "#,##0"
   }
 
@@ -959,7 +966,7 @@ view: rpt_ventas {
     sql: ${NATIONAL_AMOUNT_MTD} + ${EXPORT_AMOUNT_MTD} ;;
     #[#NATIONAL AMOUNT MTD]+[#EXPORT AMOUNT MTD]
 
-    drill_fields: [ Client,TOTAL_AMOUNT]
+    drill_fields: [ Client,NATIONAL_AMOUNT_MTD,EXPORT_AMOUNT_MTD,TOTAL_AMOUNT]
     value_format: "#,##0.00"
   }
 
@@ -970,7 +977,7 @@ view: rpt_ventas {
     sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${Z_BUD_EXPORT_AMOUNT} ;;
     #[#NATIONAL AMOUNT MTD AÑO ANT]+[#EXPORT AMOUNT MTD AÑO ANT]
 
-     drill_fields: [ Client,TOTAL_AMOUNT_YEAR_ANT]
+     drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT,Z_BUD_EXPORT_AMOUNT,TOTAL_AMOUNT_YEAR_ANT]
     value_format: "#,##0.00"
   }
 
@@ -983,7 +990,7 @@ view: rpt_ventas {
              END *100;;
     value_format: "0.00\%"
 
-    drill_fields: [ Client,VS_YEAR_ANT_VAL_T]
+    drill_fields: [ Client,TOTAL_AMOUNT,TOTAL_AMOUNT_YEAR_ANT,VS_YEAR_ANT_VAL_T]
 
 
     #IF( [#TOTAL AMOUNT] >0 and([#TOTAL AMOUNT AÑO ANT]) = 0 ,1  ,
@@ -1016,7 +1023,7 @@ view: rpt_ventas {
              END * 100;;
     value_format: "0.00\%"
 
-    drill_fields: [ Client,VS_BUD_T]
+    drill_fields: [ Client,TOTAL_AMOUNT,BUD_TOTAL_AMOUNT,VS_BUD_T]
 
     #IF( [#TOTAL AMOUNT] >0 and([#BUD TOTAL AMOUNT]) = 0 ,1  ,
     #IF([#TOTAL AMOUNT] = 0and ([#BUD TOTAL AMOUNT]) >0,-1 ,
@@ -1071,7 +1078,7 @@ view: rpt_ventas {
 
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
-     drill_fields: [ Client,TOTAL_AMOUNT_YEAR_ANT_YEAR]
+     drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR,EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR,TOTAL_AMOUNT_YEAR_ANT_YEAR]
     value_format: "#,##0.00"
   }
 
