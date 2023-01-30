@@ -881,7 +881,7 @@ view: rpt_ventas {
     sql: ${NATIONAL_QTY_MTD} + ${EXPORT_QTY_MTD} ;;
 
     drill_fields: [detail*]
-    value_format: "#,##0.00"
+    value_format: "#,##0"
   }
 
 
