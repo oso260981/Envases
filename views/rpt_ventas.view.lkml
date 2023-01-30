@@ -470,7 +470,7 @@ view: rpt_ventas {
   measure: NATIONAL_BUD_QTY_MTD {
     label: "NATIONAL BUD QTY MTD"
     type: sum
-    sql: ${bill_qty} ;;
+    sql: ${bill_qty}/1000 ;;
 
     filters: {
       field: is_current_period
