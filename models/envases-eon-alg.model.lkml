@@ -26,6 +26,7 @@ persist_with: envases-eon-alg_default_datagroup
 # Each joined view also needs to define a primary key.
 
 explore: rpt_ventas {}
+explore: rpt_ventasytd {}
 explore: calendar {}
 
 explore: envases_2023 {}
