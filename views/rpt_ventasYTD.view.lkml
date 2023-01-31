@@ -1037,13 +1037,13 @@ view: rpt_ventasytd {
 
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR{
-    label: "NATIONAL AMOUNT MTD AÑO ANTD"
+    label: "NATIONAL AMOUNT MTD AÑO ANTD20000"
 
     type: sum
     sql: ${znetval}/1000 ;;
 
     filters: {
-      field: is_previous_period_year
+      field: is_previous_period
       value: "yes"
     }
 
@@ -1055,14 +1055,14 @@ view: rpt_ventasytd {
 
 
   measure: EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR {
-    label: "EXPORT AMOUNT MTD AÑO ANT"
+    label: "EXPORT AMOUNT MTD AÑO ANT20000"
 
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "20"]
 
     filters: {
-      field: is_previous_period_year
+       field: is_previous_period
       value: "yes"
     }
     drill_fields: [ Client,EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR]
@@ -1072,7 +1072,7 @@ view: rpt_ventasytd {
 
 
   measure:  TOTAL_AMOUNT_YEAR_ANT_YEAR {
-    label: "TOTAL AMOUNT AÑO ANT"
+    label: "TOTAL AMOUNT AÑO ANT20000"
     type: number
     sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR} + ${EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR} ;;
 
