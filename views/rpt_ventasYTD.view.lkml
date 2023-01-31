@@ -328,14 +328,14 @@ view: rpt_ventasytd {
   dimension: is_current_period {
     hidden: yes
     type: yesno
-    sql: ${created_date} >= ${filter_start_date_date} AND ${created_date} <= ${filter_end_date_date} ;;
+    sql: ${created_year} =  EXTRACT(YEAR FROM ${filter_start_date_raw}) ;;
   }
 
   dimension: is_previous_period {
     hidden: yes
     type: yesno
     # sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
-    sql: ${created_date} >= ${previous_start_date} AND ${created_date} <= ${previous_end_date} ;;
+    sql:  ${created_year} =  EXTRACT(YEAR FROM ${filter_start_date_raw})-1 ;;
   }
 
 
