@@ -1037,7 +1037,7 @@ view: rpt_ventasytd {
 
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR{
-    label: "NATIONAL AMOUNT MTD AÑO ANTD20000"
+    label: "NATIONAL AMOUNT MTD AÑO ANTD"
 
     type: sum
     sql: ${znetval}/1000 ;;
@@ -1055,7 +1055,7 @@ view: rpt_ventasytd {
 
 
   measure: EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR {
-    label: "EXPORT AMOUNT MTD AÑO ANT20000"
+    label: "EXPORT AMOUNT MTD AÑO ANT"
 
     type: sum
     sql: ${znetval} ;;
@@ -1072,7 +1072,7 @@ view: rpt_ventasytd {
 
 
   measure:  TOTAL_AMOUNT_YEAR_ANT_YEAR {
-    label: "TOTAL AMOUNT AÑO ANT20000"
+    label: "TOTAL AMOUNT AÑO ANT"
     type: number
     sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR} + ${EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR} ;;
 
