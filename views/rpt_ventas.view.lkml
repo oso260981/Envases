@@ -1043,7 +1043,7 @@ view: rpt_ventas {
     sql: ${znetval}/1000 ;;
 
     filters: {
-      field: is_previous_period_year
+      field: is_previous_period
       value: "yes"
     }
 
@@ -1062,7 +1062,7 @@ view: rpt_ventas {
     filters: [distr_chan: "20"]
 
     filters: {
-      field: is_previous_period_year
+       field: is_previous_period
       value: "yes"
     }
      drill_fields: [ Client,EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR]
