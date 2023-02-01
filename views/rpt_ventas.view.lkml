@@ -39,7 +39,6 @@ view: rpt_ventas {
 
 
 
-
   dimension: Client {
     label: "Cliente"
     type: string
@@ -64,6 +63,7 @@ view: rpt_ventas {
   }
 
   dimension: stat_curr {
+    label: "Tipo moneda"
     type: string
     sql: ${TABLE}.STAT_CURR ;;
   }

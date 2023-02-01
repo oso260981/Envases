@@ -64,6 +64,7 @@ view: rpt_ventasytd {
   }
 
   dimension: stat_curr {
+    label: "Tipo moneda"
     type: string
     sql: ${TABLE}.STAT_CURR ;;
   }
