@@ -236,6 +236,19 @@ view: rpt_ventas {
   dimension: category {
     type: string
     sql: case when ${TABLE}.CATEGORY is null then 'Otros' else ${TABLE}.CATEGORY  end ;;
+
+
+    html: {% if value == 'TOTAL MONEDA ORIGEN'
+
+    %}
+  <p style="color: black; background-color: lightblue; font-size:100%; text-align:left">{{ rendered_value }}</p>
+  {% else %}
+  <p style="">{{ rendered_value }}</p>
+  {% endif %} ;;
+
+
+
+
   }
 
 
