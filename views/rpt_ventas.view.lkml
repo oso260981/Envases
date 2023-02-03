@@ -238,6 +238,18 @@ view: rpt_ventas {
     sql: case when ${TABLE}.CATEGORY is null then 'Otros' else ${TABLE}.CATEGORY  end ;;
   }
 
+
+
+  dimension: category_orden {
+    type: string
+    sql: case when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then 1000
+              when ${TABLE}.CATEGORY="TOTAL MXN" then 2000 else 100  end ;;
+  }
+
+
+
+
+
   dimension: subcategory {
     type: string
     sql:  ${TABLE}.SUBCATEGORY ;;
