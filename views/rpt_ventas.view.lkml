@@ -238,10 +238,11 @@ view: rpt_ventas {
     sql: case when ${TABLE}.CATEGORY is null then 'Otros' else ${TABLE}.CATEGORY  end ;;
 
 
-    html: {% if value == 'TOTAL MONEDA ORIGEN'
+    html: {% if value == 'TOTAL MONEDA ORIGEN' or
+                value == 'TOTAL MXN'
 
     %}
-  <p style="color: black; background-color: lightblue; font-size:100%; text-align:left">{{ rendered_value }}</p>
+  <p style="color: white; background-color: #5e2129; font-size:100%; text-align:left">{{ rendered_value }}</p>
   {% else %}
   <p style="">{{ rendered_value }}</p>
   {% endif %} ;;
