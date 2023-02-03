@@ -494,6 +494,22 @@ view: rpt_ventas {
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   measure: NATIONAL_BUD_QTY_MTD {
     label: "NATIONAL BUD QTY MTD"
     type: sum
@@ -555,6 +571,14 @@ view: rpt_ventas {
     drill_fields: [ Client,NATIONAL_QTY_MTD,BUD_NATIONAL_QTY_MTD,VS_BUD_QTY]
 
   }
+
+
+
+
+
+
+
+
 
 
   measure: NATIONAL_AMOUNT_MTD {
