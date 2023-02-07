@@ -237,6 +237,21 @@ view: rpt_ventasytd {
   dimension: category {
     type: string
     sql: case when ${TABLE}.CATEGORY is null then 'Otros' else ${TABLE}.CATEGORY  end ;;
+
+    html: {% if value == 'TOTAL MONEDA ORIGEN' or
+    value == 'TOTAL MXN'
+
+    %}
+  <p style="color: white; background-color: #5e2129; font-size:100%; text-align:left">{{ rendered_value }}</p>
+  {% else %}
+  <p style="">{{ rendered_value }}</p>
+  {% endif %} ;;
+  }
+
+  dimension: category_orden {
+    type: string
+    sql: case when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then 1000
+      when ${TABLE}.CATEGORY="TOTAL MXN" then 2000 else 100  end ;;
   }
 
   dimension: subcategory {
