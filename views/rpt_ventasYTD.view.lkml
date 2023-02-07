@@ -670,11 +670,12 @@ view: rpt_ventasytd {
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
-
+    filters: [version: "000"]
     filters: {
       field: is_current_period
       value: "yes"
     }
+
 
     drill_fields: [ Client,EXPORT_QTY_MTD]
     value_format: "#,##0"
@@ -685,7 +686,7 @@ view: rpt_ventasytd {
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
-
+    filters: [version: "000"]
     filters: {
       field: is_previous_period
       value: "yes"
@@ -718,7 +719,7 @@ view: rpt_ventasytd {
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
-
+    filters: [version: "000"]
     filters: {
       field: is_current_period
       value: "yes"
@@ -785,7 +786,7 @@ view: rpt_ventasytd {
     type: sum
     sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
-
+    filters: [version: "000"]
     filters: {
       field: is_current_period
       value: "yes"
@@ -804,7 +805,7 @@ view: rpt_ventasytd {
     type: sum
     sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
-
+    filters: [version: "000"]
     filters: {
       field: is_previous_period
       value: "yes"
@@ -831,7 +832,7 @@ view: rpt_ventasytd {
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "20"]
-
+    filters: [version: "000"]
     filters: {
       field: is_current_period
       value: "yes"
@@ -1062,7 +1063,7 @@ view: rpt_ventasytd {
       field: is_previous_period
       value: "yes"
     }
-
+    filters: [version: "000"]
     filters: [distr_chan: "10"]
     drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR]
     value_format: "#,##0.00"
@@ -1076,7 +1077,7 @@ view: rpt_ventasytd {
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "20"]
-
+    filters: [version: "000"]
     filters: {
        field: is_previous_period
       value: "yes"
