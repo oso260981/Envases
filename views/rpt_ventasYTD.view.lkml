@@ -1101,19 +1101,23 @@ view: rpt_ventasytd {
 
 
 
+
   measure: z_BUD_NATIONAL_AMOUNT{
     label: "z_BUD NATIONAL AMOUNT"
 
-    type: sum
 
-    sql: ${bill_qty}*0 ;;
+    type: sum
+    sql: ${bill_qty}/1000 ;;
 
     filters: {
-      field: is_previous_period_year
+      field: is_current_period
       value: "yes"
     }
 
     filters: [distr_chan: "10"]
+    filters: [version: "A00"]
+
+
     drill_fields: [ Client,z_BUD_NATIONAL_AMOUNT]
     value_format: "#,##0.00"
   }
@@ -1123,16 +1127,24 @@ view: rpt_ventasytd {
   measure: z_BUD_EXPORT_AMOUNT {
     label: "z_BUD EXPORT AMOUNT"
 
+
+
     type: sum
-    sql: ${znetval}*0 ;;
-    filters: [distr_chan: "20"]
+    sql: ${znetval}/1000 ;;
 
     filters: {
-      field: is_previous_period_year
+      field: is_current_period
       value: "yes"
     }
+
+    filters: [distr_chan: "20"]
+    filters: [version: "A00"]
+
+
+
     drill_fields: [ Client,z_BUD_EXPORT_AMOUNT]
   }
+
 
 
 
