@@ -1118,7 +1118,7 @@ view: rpt_ventas {
     label: "EXPORT AMOUNT MTD AÑO ANT"
 
     type: sum
-    sql: ${znetval} ;;
+    sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
     filters: [version: "000"]
     filters: {
