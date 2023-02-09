@@ -569,7 +569,7 @@ view: rpt_ventas {
   measure: VS_BUD_QTY {
     label: "% VS BUD QTY"
     type: number
-    sql:  (${NATIONAL_QTY_MTD}/null(${BUD_NATIONAL_QTY_MTD},0))-1 *100 ;;
+    sql:  (${NATIONAL_QTY_MTD}/NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1 *100 ;;
   #  sql: CASE WHEN ${NATIONAL_QTY_MTD}>0 AND ${BUD_NATIONAL_QTY_MTD}=0 THEN 1
   #            WHEN ${NATIONAL_QTY_MTD}=0 AND ${BUD_NATIONAL_QTY_MTD}>0 THEN -1
   #            WHEN (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0)) -1=-1 THEN 0 ELSE (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1
