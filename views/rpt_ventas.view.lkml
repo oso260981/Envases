@@ -8,7 +8,7 @@ view: rpt_ventas {
 
 
   dimension_group: created {
-    label: "Periodo"
+    label: "Fecha"
     type: time
     timeframes: [
       raw,
@@ -26,7 +26,7 @@ view: rpt_ventas {
 
 
   filter: date_filter {
-    label: "Período2023"
+    label: "Período"
     description: "Use this date filter in combination with the timeframes dimension for dynamic date filtering"
     type: date
   }
@@ -816,11 +816,23 @@ view: rpt_ventas {
 
   measure: BUD_EXPORT_QTY_MTD {
     label: "BUD EXPORT QTY_MTD"
-    type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION_2}
-      else ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION}  END;;
 
+    type: sum
+    sql: ${bill_qty}/1000 ;;
+    filters: [distr_chan: "20"]
+    filters: [version: "A00"]
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    drill_fields: [ Client,EXPORT_BUD_QTY_MTD]
     value_format: "#,##0.00"
+
+
+ #   sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION_2}
+#      else ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION}  END;;
+#  value_format: "#,##0.00"
     # IF([#MES]=1,[#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN])
 
   }
