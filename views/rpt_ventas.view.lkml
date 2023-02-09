@@ -707,7 +707,7 @@ view: rpt_ventas {
   measure: VS_BUD_VAL {
     label: "% VS BUD VAL"
     type: number
-    sql: (${NATIONAL_AMOUNT_MTD}/NULLIF(${Z_BUD_NATIONAL_AMOUNT},0))-1 ;;
+    sql: ((${NATIONAL_AMOUNT_MTD}/NULLIF(${Z_BUD_NATIONAL_AMOUNT},0))-1)*100 ;;
 
 
 
@@ -955,11 +955,22 @@ view: rpt_ventas {
 
   measure:  Z_BUD_EXPORT_AMOUNT {
     label: "Z_BUD  EXPORT AMOUNT"
-    type: number
-    sql: ${BUD_EXPORT_AMOUNT_MTD}/1000;;
+
+    type: sum
+    sql: ${znetval} ;;
+    filters: [distr_chan: "20"]
+    filters: [version: "A00"]
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+    drill_fields: [ Client,EXPORT_BUD_AMOUNT_MTD_MIL]
+    value_format: "#,##0.00"
+
 
     #   [#BUD EXPORT AMOUNT_MTD] /1000
-    value_format: "#,##0.00"
+
   }
 
 
