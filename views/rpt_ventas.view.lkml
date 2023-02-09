@@ -25,6 +25,14 @@ view: rpt_ventas {
   }
 
 
+  filter: date_filter {
+    label: "Período2023"
+    description: "Use this date filter in combination with the timeframes dimension for dynamic date filtering"
+    type: date
+  }
+
+
+
 
 
 
@@ -289,11 +297,6 @@ view: rpt_ventas {
 
 ######  Filtros Periodos actuales y anteriores mes ########################################################################################
 
-  filter: date_filter {
-    label: "Período"
-    description: "Use this date filter in combination with the timeframes dimension for dynamic date filtering"
-    type: date
-  }
 
 
   dimension_group: filter_start_date {
@@ -624,7 +627,7 @@ view: rpt_ventas {
     type: number
     sql: CASE WHEN ${NATIONAL_AMOUNT_MTD} > 1 AND ${NATIONAL_AMOUNT_MTD_YEAR_ANT} = 0 THEN 1
               WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${NATIONAL_AMOUNT_MTD_YEAR_ANT} > 0 THEN -1
-              WHEN (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) = 0 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0))  END * 100;;
+              WHEN (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0))-1 = 0 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) -1 END * 100;;
     value_format: "0.00\%"
     drill_fields: [ Client,NATIONAL_AMOUNT_MTD,NATIONAL_AMOUNT_MTD_YEAR_ANT,VS_VAL]
   }
