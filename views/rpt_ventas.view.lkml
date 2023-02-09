@@ -569,9 +569,9 @@ view: rpt_ventas {
     }
 
     filters: [distr_chan: "10"]
-    filters: [version: "000"]
+    filters: [version: "A00"]
 
-    drill_fields: [ Client,NATIONAL_QTY_MTD]
+    drill_fields: [ Client,BUD_NATIONAL_QTY_MTD]
 
 
 
