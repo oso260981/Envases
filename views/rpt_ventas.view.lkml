@@ -558,9 +558,25 @@ view: rpt_ventas {
 
   measure: BUD_NATIONAL_QTY_MTD {
     label: "BUD NATIONAL QTY_MTD"
-    type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION_2}
-    else ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION}  END;;
+
+
+    type: sum
+    sql: ${bill_qty}/1000 ;;
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    filters: [version: "000"]
+
+    drill_fields: [ Client,NATIONAL_QTY_MTD]
+
+
+
+   # sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION_2}
+  #  else ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION}  END;;
     value_format: "#,##0.00"
 
     }
