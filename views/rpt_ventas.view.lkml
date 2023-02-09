@@ -527,7 +527,7 @@ view: rpt_ventas {
     filters: [distr_chan: "10"]
     filters: [version: "000"]
      drill_fields: [ Client,NATIONAL_BUD_QTY_MTD]
-    value_format: "#,##0.00"
+ #   value_format: "#,##0.00"
 
 
   }
@@ -1149,7 +1149,7 @@ view: rpt_ventas {
 
 
     type: sum
-    sql: ${bill_qty}/1000 ;;
+    sql: ${znetval}/1000 ;;
 
     filters: {
       field: is_current_period
