@@ -1185,6 +1185,7 @@ view: rpt_ventas {
 
 
      drill_fields: [ Client,z_BUD_EXPORT_AMOUNT]
+    value_format: "#,##0.00"
   }
 
 
@@ -1197,6 +1198,7 @@ view: rpt_ventas {
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
    drill_fields: [ Client,BUD_TOTAL_AMOUNT_YEAR]
+    value_format: "#,##0.00"
   }
 
 
