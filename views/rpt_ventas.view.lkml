@@ -585,7 +585,7 @@ view: rpt_ventas {
   measure: VS_BUD_QTY {
     label: "% VS BUD QTY"
     type: number
-    sql:  (${NATIONAL_QTY_MTD}/NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1 *100 ;;
+    sql:  ((${NATIONAL_QTY_MTD}/NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1)*100 ;;
   #  sql: CASE WHEN ${NATIONAL_QTY_MTD}>0 AND ${BUD_NATIONAL_QTY_MTD}=0 THEN 1
   #            WHEN ${NATIONAL_QTY_MTD}=0 AND ${BUD_NATIONAL_QTY_MTD}>0 THEN -1
   #            WHEN (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0)) -1=-1 THEN 0 ELSE (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1
@@ -689,8 +689,10 @@ view: rpt_ventas {
   measure: BUD_NATIONAL_AMOUNT_MTD {
     label: "BUD NATIONAL AMOUNT_MTD"
     type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${DIA_SELECCION_2}
-      else ${BUD_DIA_MES_NATIONAL_AMOUNT} * ${DIA_SELECCION} END;;
+
+
+  #  sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${DIA_SELECCION_2}
+  #    else ${BUD_DIA_MES_NATIONAL_AMOUNT} * ${DIA_SELECCION} END;;
 
     value_format: "#,##0.00"
 
@@ -699,20 +701,36 @@ view: rpt_ventas {
 
   measure: Z_BUD_NATIONAL_AMOUNT {
     label: "Z_BUD  NATIONAL AMOUNT"
-    type: number
-    sql: ${BUD_NATIONAL_AMOUNT_MTD}/1000;;
+    type: sum
 
-    #  [#BUD NATIONAL AMOUNT_MTD]/1000
+    sql: ${znetval}/1000 ;;
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    filters: [version: "A00"]
+
+
+    drill_fields: [ Client,z_BUD_NATIONAL_AMOUNT]
     value_format: "#,##0.00"
+
+
   }
 
   measure: VS_BUD_VAL {
     label: "% VS BUD VAL"
     type: number
-    sql: CASE WHEN ${NATIONAL_AMOUNT_MTD} > 0 AND ${Z_BUD_NATIONAL_AMOUNT} = 0 THEN 1
-              WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${Z_BUD_NATIONAL_AMOUNT} > 0 THEN -1
-              WHEN (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1
-             END *100;;
+    sql: (${NATIONAL_AMOUNT_MTD}/NULLIF(${Z_BUD_NATIONAL_AMOUNT},0))-1 ;;
+
+
+
+  ##  sql: CASE WHEN ${NATIONAL_AMOUNT_MTD} > 0 AND ${Z_BUD_NATIONAL_AMOUNT} = 0 THEN 1
+  ##            WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${Z_BUD_NATIONAL_AMOUNT} > 0 THEN -1
+  #            WHEN (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1
+  #           END *100;;
     value_format: "0.00\%"
 
 
