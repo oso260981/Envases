@@ -501,22 +501,6 @@ view: rpt_ventas {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   measure: NATIONAL_BUD_QTY_MTD {
     label: "NATIONAL BUD QTY MTD"
     type: sum
@@ -781,7 +765,7 @@ view: rpt_ventas {
     type: number
     sql: CASE WHEN ${EXPORT_QTY_MTD} > 0 AND ${EXPORT_QTY_MTD_YEAR_ANT} = 0 THEN 1
               WHEN ${EXPORT_QTY_MTD} = 0 AND ${EXPORT_QTY_MTD_YEAR_ANT} > 0 THEN -1
-              WHEN (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0)) = 0 THEN 0 ELSE (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0))  END *100;;
+              WHEN (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0))-1 = 0 THEN 0 ELSE (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0))-1  END *100;;
     value_format: "0.00\%"
 
     drill_fields: [ Client,EXPORT_QTY_MTD,EXPORT_QTY_MTD_YEAR_ANT,VS_QTY_EXP]
