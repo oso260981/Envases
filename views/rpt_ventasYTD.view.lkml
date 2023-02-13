@@ -452,6 +452,8 @@ view: rpt_ventasytd {
     }
 
     filters: [distr_chan: "10"]
+    filters: [version: "000"]
+
     drill_fields: [ Client,NATIONAL_QTY_MTD]
 
     value_format: "#,##0"
@@ -468,6 +470,7 @@ view: rpt_ventasytd {
     }
 
     filters: [distr_chan: "10"]
+    filters: [version: "000"]
     drill_fields: [ Client,NATIONAL_QTY_MTDY]
     value_format: "#,##0"
   }
@@ -478,7 +481,7 @@ view: rpt_ventasytd {
     type: number
     sql: CASE WHEN ${NATIONAL_QTY_MTD} > 1 AND ${NATIONAL_QTY_MTDY} = 0 THEN 1
               WHEN ${NATIONAL_QTY_MTD} = 0 AND ${NATIONAL_QTY_MTDY} > 0 THEN -1
-              WHEN (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0)) = 0 THEN 0 ELSE (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0))  END *100;;
+              WHEN (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0))-1 = 0 THEN 0 ELSE (${NATIONAL_QTY_MTD}/NULLIF(${NATIONAL_QTY_MTDY},0))-1  END *100;;
     value_format: "0.00\%"
     drill_fields: [ Client,NATIONAL_QTY_MTD,NATIONAL_QTY_MTDY,VS_QTY]
   }
@@ -495,8 +498,9 @@ view: rpt_ventasytd {
     }
 
     filters: [distr_chan: "10"]
+    filters: [version: "000"]
     drill_fields: [ Client,NATIONAL_BUD_QTY_MTD]
-    value_format: "#,##0.00"
+    #   value_format: "#,##0.00"
 
 
   }
@@ -524,9 +528,25 @@ view: rpt_ventasytd {
 
   measure: BUD_NATIONAL_QTY_MTD {
     label: "BUD NATIONAL QTY_MTD"
-    type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION_2}
-      else ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION}  END;;
+
+
+    type: sum
+    sql: ${bill_qty}/1000 ;;
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    filters: [version: "A00"]
+
+    drill_fields: [ Client,BUD_NATIONAL_QTY_MTD]
+
+
+
+    # sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION_2}
+    #  else ${BUD_DIA_MES_NATIONAL_QTY}* ${DIA_SELECCION}  END;;
     value_format: "#,##0.00"
 
   }
@@ -535,16 +555,25 @@ view: rpt_ventasytd {
   measure: VS_BUD_QTY {
     label: "% VS BUD QTY"
     type: number
-    sql: CASE WHEN ${NATIONAL_QTY_MTD}>0 AND ${BUD_NATIONAL_QTY_MTD}=0 THEN 1
-              WHEN ${NATIONAL_QTY_MTD}=0 AND ${BUD_NATIONAL_QTY_MTD}>0 THEN -1
-              WHEN (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0)) -1=-1 THEN 0 ELSE (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1
-              END *100 ;;
+    sql:  ((${NATIONAL_QTY_MTD}/NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1)*100 ;;
+    #  sql: CASE WHEN ${NATIONAL_QTY_MTD}>0 AND ${BUD_NATIONAL_QTY_MTD}=0 THEN 1
+    #            WHEN ${NATIONAL_QTY_MTD}=0 AND ${BUD_NATIONAL_QTY_MTD}>0 THEN -1
+    #            WHEN (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0)) -1=-1 THEN 0 ELSE (${NATIONAL_QTY_MTD} / NULLIF(${BUD_NATIONAL_QTY_MTD},0))-1
+    #            END *100 ;;
     value_format: "0.00\%"
 
 
     drill_fields: [ Client,NATIONAL_QTY_MTD,BUD_NATIONAL_QTY_MTD,VS_BUD_QTY]
 
   }
+
+
+
+
+
+
+
+
 
 
   measure: NATIONAL_AMOUNT_MTD {
@@ -558,6 +587,7 @@ view: rpt_ventasytd {
     }
 
     filters: [distr_chan: "10"]
+    filters: [version: "000"]
     drill_fields: [ Client,NATIONAL_AMOUNT_MTD]
     value_format: "#,##0.00"
   }
@@ -574,6 +604,7 @@ view: rpt_ventasytd {
     }
 
     filters: [distr_chan: "10"]
+    filters: [version: "000"]
     drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT]
     value_format: "#,##0.00"
   }
@@ -583,7 +614,7 @@ view: rpt_ventasytd {
     type: number
     sql: CASE WHEN ${NATIONAL_AMOUNT_MTD} > 1 AND ${NATIONAL_AMOUNT_MTD_YEAR_ANT} = 0 THEN 1
               WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${NATIONAL_AMOUNT_MTD_YEAR_ANT} > 0 THEN -1
-              WHEN (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) = 0 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0))  END * 100;;
+              WHEN (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0))-1 = 0 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD}/NULLIF(${NATIONAL_AMOUNT_MTD_YEAR_ANT},0)) -1 END * 100;;
     value_format: "0.00\%"
     drill_fields: [ Client,NATIONAL_AMOUNT_MTD,NATIONAL_AMOUNT_MTD_YEAR_ANT,VS_VAL]
   }
@@ -593,6 +624,7 @@ view: rpt_ventasytd {
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "10"]
+    filters: [version: "000"]
 
     filters: {
       field: is_current_period
@@ -627,8 +659,10 @@ view: rpt_ventasytd {
   measure: BUD_NATIONAL_AMOUNT_MTD {
     label: "BUD NATIONAL AMOUNT_MTD"
     type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${DIA_SELECCION_2}
-      else ${BUD_DIA_MES_NATIONAL_AMOUNT} * ${DIA_SELECCION} END;;
+
+
+    #  sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_NATIONAL_AMOUNT}* ${DIA_SELECCION_2}
+    #    else ${BUD_DIA_MES_NATIONAL_AMOUNT} * ${DIA_SELECCION} END;;
 
     value_format: "#,##0.00"
 
@@ -637,20 +671,36 @@ view: rpt_ventasytd {
 
   measure: Z_BUD_NATIONAL_AMOUNT {
     label: "Z_BUD  NATIONAL AMOUNT"
-    type: number
-    sql: ${BUD_NATIONAL_AMOUNT_MTD}/1000;;
+    type: sum
 
-    #  [#BUD NATIONAL AMOUNT_MTD]/1000
+    sql: ${znetval}/1000 ;;
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    filters: [distr_chan: "10"]
+    filters: [version: "A00"]
+
+
+    drill_fields: [ Client,z_BUD_NATIONAL_AMOUNT]
     value_format: "#,##0.00"
+
+
   }
 
   measure: VS_BUD_VAL {
     label: "% VS BUD VAL"
     type: number
-    sql: CASE WHEN ${NATIONAL_AMOUNT_MTD} > 0 AND ${Z_BUD_NATIONAL_AMOUNT} = 0 THEN 1
-              WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${Z_BUD_NATIONAL_AMOUNT} > 0 THEN -1
-              WHEN (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1
-             END *100;;
+    sql: ((${NATIONAL_AMOUNT_MTD}/NULLIF(${Z_BUD_NATIONAL_AMOUNT},0))-1)*100 ;;
+
+
+
+    ##  sql: CASE WHEN ${NATIONAL_AMOUNT_MTD} > 0 AND ${Z_BUD_NATIONAL_AMOUNT} = 0 THEN 1
+    ##            WHEN ${NATIONAL_AMOUNT_MTD} = 0 AND ${Z_BUD_NATIONAL_AMOUNT} > 0 THEN -1
+    #            WHEN (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${NATIONAL_AMOUNT_MTD} /  NULLIF (${Z_BUD_NATIONAL_AMOUNT},0))-1
+    #           END *100;;
     value_format: "0.00\%"
 
 
@@ -675,7 +725,6 @@ view: rpt_ventasytd {
       field: is_current_period
       value: "yes"
     }
-
 
     drill_fields: [ Client,EXPORT_QTY_MTD]
     value_format: "#,##0"
@@ -702,7 +751,7 @@ view: rpt_ventasytd {
     type: number
     sql: CASE WHEN ${EXPORT_QTY_MTD} > 0 AND ${EXPORT_QTY_MTD_YEAR_ANT} = 0 THEN 1
               WHEN ${EXPORT_QTY_MTD} = 0 AND ${EXPORT_QTY_MTD_YEAR_ANT} > 0 THEN -1
-              WHEN (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0)) = 0 THEN 0 ELSE (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0))  END *100;;
+              WHEN (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0))-1 = 0 THEN 0 ELSE (${EXPORT_QTY_MTD}/NULLIF(${EXPORT_QTY_MTD_YEAR_ANT},0))-1  END *100;;
     value_format: "0.00\%"
 
     drill_fields: [ Client,EXPORT_QTY_MTD,EXPORT_QTY_MTD_YEAR_ANT,VS_QTY_EXP]
@@ -753,11 +802,23 @@ view: rpt_ventasytd {
 
   measure: BUD_EXPORT_QTY_MTD {
     label: "BUD EXPORT QTY_MTD"
-    type: number
-    sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION_2}
-      else ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION}  END;;
 
+    type: sum
+    sql: ${bill_qty}/1000 ;;
+    filters: [distr_chan: "20"]
+    filters: [version: "A00"]
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+
+    drill_fields: [ Client,EXPORT_BUD_QTY_MTD]
     value_format: "#,##0.00"
+
+
+    #   sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION_2}
+#      else ${BUD_DIA_MES_EXPORT_QTY}* ${DIA_SELECCION}  END;;
+#  value_format: "#,##0.00"
     # IF([#MES]=1,[#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN_2] , [#BUD_DÍA_MES_EXPORT_QTY]*[#DÍA_SELECCIÓN])
 
   }
@@ -833,6 +894,7 @@ view: rpt_ventasytd {
     sql: ${znetval} ;;
     filters: [distr_chan: "20"]
     filters: [version: "000"]
+
     filters: {
       field: is_current_period
       value: "yes"
@@ -879,11 +941,22 @@ view: rpt_ventasytd {
 
   measure:  Z_BUD_EXPORT_AMOUNT {
     label: "Z_BUD  EXPORT AMOUNT"
-    type: number
-    sql: ${BUD_EXPORT_AMOUNT_MTD}/1000;;
+
+    type: sum
+    sql: ${znetval} ;;
+    filters: [distr_chan: "20"]
+    filters: [version: "A00"]
+
+    filters: {
+      field: is_current_period
+      value: "yes"
+    }
+    drill_fields: [ Client,EXPORT_BUD_AMOUNT_MTD_MIL]
+    value_format: "#,##0.00"
+
 
     #   [#BUD EXPORT AMOUNT_MTD] /1000
-    value_format: "#,##0.00"
+
   }
 
 
@@ -893,10 +966,11 @@ view: rpt_ventasytd {
   measure: VS_BUD_VAL_EXP {
     label: "% VS BUD VAL EXP"
     type: number
-    sql: CASE WHEN ${EXPORT_AMOUNT_MTD} > 0 AND ${Z_BUD_EXPORT_AMOUNT} = 0 THEN 1
-              WHEN ${EXPORT_AMOUNT_MTD} = 0 AND ${Z_BUD_EXPORT_AMOUNT} > 0 THEN -1
-              WHEN (${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1=-1 THEN 0 ELSE (${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1
-             END *100 ;;
+    sql: ((${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1)*100 ;;
+    #sql: CASE WHEN ${EXPORT_AMOUNT_MTD} > 0 AND ${Z_BUD_EXPORT_AMOUNT} = 0 THEN 1
+    #          WHEN ${EXPORT_AMOUNT_MTD} = 0 AND ${Z_BUD_EXPORT_AMOUNT} > 0 THEN -1
+    #          WHEN (${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1=-1 THEN 0 ELSE (${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1
+    #         END *100 ;;
     value_format: "0.00\%"
 
     drill_fields: [ Client,EXPORT_AMOUNT_MTD,Z_BUD_EXPORT_AMOUNT,VS_BUD_VAL_EXP]
@@ -1063,8 +1137,9 @@ view: rpt_ventasytd {
       field: is_previous_period
       value: "yes"
     }
-    filters: [version: "000"]
+
     filters: [distr_chan: "10"]
+    filters: [version: "000"]
     drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR]
     value_format: "#,##0.00"
   }
@@ -1075,11 +1150,11 @@ view: rpt_ventasytd {
     label: "EXPORT AMOUNT MTD AÑO ANT"
 
     type: sum
-    sql: ${znetval} ;;
+    sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
     filters: [version: "000"]
     filters: {
-       field: is_previous_period
+      field: is_previous_period
       value: "yes"
     }
     drill_fields: [ Client,EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR]
@@ -1101,13 +1176,12 @@ view: rpt_ventasytd {
 
 
 
-
   measure: z_BUD_NATIONAL_AMOUNT{
     label: "z_BUD NATIONAL AMOUNT"
 
 
     type: sum
-    sql: ${bill_qty}/1000 ;;
+    sql: ${znetval}/1000 ;;
 
     filters: {
       field: is_current_period
@@ -1143,8 +1217,8 @@ view: rpt_ventasytd {
 
 
     drill_fields: [ Client,z_BUD_EXPORT_AMOUNT]
+    value_format: "#,##0.00"
   }
-
 
 
 
@@ -1156,6 +1230,7 @@ view: rpt_ventasytd {
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
     drill_fields: [ Client,BUD_TOTAL_AMOUNT_YEAR]
+    value_format: "#,##0.00"
   }
 
 
