@@ -264,8 +264,8 @@ view: rpt_ventas {
 
   dimension: category_orden {
     type: string
-    sql: case when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then 1000
-              when ${TABLE}.CATEGORY="TOTAL MXN" then 2000 else 100  end ;;
+    sql: case when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "b"
+              when ${TABLE}.CATEGORY="TOTAL MXN" then "c" else "a"  end ;;
   }
 
 
