@@ -26,7 +26,7 @@ view: rpt_ventas {
 
 
   filter: date_filter {
-    label: "Período"
+    label: "Período2023"
     description: "Use this date filter in combination with the timeframes dimension for dynamic date filtering"
     type: date
   }
@@ -325,6 +325,7 @@ view: rpt_ventas {
     hidden: yes
     type: string
     sql: DATE_ADD(DATE ${filter_start_date_raw}, INTERVAL -12 month);;
+    #sql: DATE_ADD(DATE ({% date_start created_date %}), INTERVAL -12 month);;
 
    # sql: DATE_ADD(day, - ${interval}, ${filter_start_date_raw});;
   }
@@ -334,6 +335,9 @@ view: rpt_ventas {
     hidden: yes
     type: string
     sql: DATE_ADD(DATE ${filter_end_date_raw}, INTERVAL -12 month);;
+
+    #sql: DATE_ADD(DATE ({% date_end created_date %}), INTERVAL -12 month);;
+
 
     # sql: DATE_ADD(day, - ${interval}, ${filter_start_date_raw});;
   }
@@ -359,13 +363,17 @@ view: rpt_ventas {
     hidden: yes
     type: yesno
     sql: ${created_date} >= ${filter_start_date_date} AND ${created_date} <= ${filter_end_date_date} ;;
+   # sql: ${created_date} >= cast({% date_start created_date %} AS DATE) AND ${created_date} <= cast({% date_end created_date %} AS DATE) ;;
   }
+
+
+
 
   dimension: is_previous_period {
     hidden: yes
     type: yesno
-   # sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
-    sql: ${created_date} >= ${previous_start_date} AND ${created_date} <= ${previous_end_date} ;;
+    sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
+    #sql: ${created_date} >= cast(${previous_start_date} AS DATE) AND ${created_date} <= cast(${previous_end_date} AS DATE) ;;
   }
 
 
@@ -602,7 +610,7 @@ view: rpt_ventas {
 
     filters: [distr_chan: "10"]
     filters: [version: "000"]
-     drill_fields: [ Client,NATIONAL_AMOUNT_MTD]
+     drill_fields: [ category_orden,Client,NATIONAL_AMOUNT_MTD]
     value_format: "#,##0.00"
   }
 
