@@ -401,7 +401,7 @@ when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "z"  end ;;
   dimension: is_previous_period {
     hidden: yes
     type: yesno
-    sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
+    sql: ${created_date} >= ${previous_start_date} AND ${created_date} <= ${filter_start_date_date} ;;
     #sql: ${created_date} >= cast(${previous_start_date} AS DATE) AND ${created_date} <= cast(${previous_end_date} AS DATE) ;;
   }
 
