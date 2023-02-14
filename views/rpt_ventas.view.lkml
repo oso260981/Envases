@@ -293,8 +293,8 @@ when ${TABLE}.CATEGORY="Fish." then "x"
 when ${TABLE}.CATEGORY="PeelOff," then "y"
 
 
-when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "AD"
-when ${TABLE}.CATEGORY="TOTAL MXN" then "AE" else "z"  end ;;
+when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "Z1"
+when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "z"  end ;;
   }
 
 
