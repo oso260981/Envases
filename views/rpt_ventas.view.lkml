@@ -264,8 +264,37 @@ view: rpt_ventas {
 
   dimension: category_orden {
     type: string
-    sql: case when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "b"
-              when ${TABLE}.CATEGORY="TOTAL MXN" then "c" else "a"  end ;;
+    sql: case
+
+when ${TABLE}.CATEGORY="CP 19L" then "a"
+when ${TABLE}.CATEGORY="CP 15L" then "b"
+when ${TABLE}.CATEGORY="CP 10L" then "c"
+when ${TABLE}.CATEGORY="CP 08L" then "d"
+when ${TABLE}.CATEGORY="CP 04L" then "e"
+when ${TABLE}.CATEGORY="Cubeta de Plastico" then "f"
+when ${TABLE}.CATEGORY="Porron de Plastico" then "g"
+when ${TABLE}.CATEGORY="Tambores de Plastico" then "h"
+when ${TABLE}.CATEGORY="Bote bocan" then "i"
+when ${TABLE}.CATEGORY="Tambores" then "j"
+when ${TABLE}.CATEGORY="Tambores Conicos" then "k"
+when ${TABLE}.CATEGORY="Cubeta de Lamina" then "l"
+when ${TABLE}.CATEGORY="Alcoholero" then "m"
+when ${TABLE}.CATEGORY="Bote de Pintura" then "n"
+when ${TABLE}.CATEGORY="Bote de Aerosol" then "o"
+when ${TABLE}.CATEGORY="Línea General" then "p"
+when ${TABLE}.CATEGORY="Bote Sanitario" then "q"
+when ${TABLE}.CATEGORY="Bote Atún" then "r"
+when ${TABLE}.CATEGORY="Bote oval" then "s"
+when ${TABLE}.CATEGORY="Tapa Easy Open" then "t"
+when ${TABLE}.CATEGORY="Fondo Charola y Bafle" then "u"
+when ${TABLE}.CATEGORY="Tapa Twist Off" then "v"
+when ${TABLE}.CATEGORY="Varios" then "w"
+when ${TABLE}.CATEGORY="Fish." then "x"
+when ${TABLE}.CATEGORY="PeelOff," then "y"
+
+
+when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "AD"
+when ${TABLE}.CATEGORY="TOTAL MXN" then "AE" else "z"  end ;;
   }
 
 
