@@ -455,7 +455,7 @@ when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "z"  end ;;
         label: "Guatemala"
       }
       when: {
-        sql: ${TABLE}.SALESORG in ( "DKF1","DKF3","SEF1","SEF2") ;;
+        sql: ${TABLE}.SALESORG in ( "DKF1","DKF3","SEF1","USF2") ;;
         label: "Dinamarca"
       }
       when: {
