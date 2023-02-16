@@ -26,7 +26,7 @@ view: rpt_ventas {
 
 
   filter: date_filter {
-    label: "Período2023"
+    label: "Período"
     description: "Use this date filter in combination with the timeframes dimension for dynamic date filtering"
     type: date
   }
