@@ -442,7 +442,7 @@ view: rpt_ventasytd {
   ####################################Medias Calculadas###############################################################################
 
   measure: NATIONAL_QTY_MTD {
-    label: "NATIONAL QTY_MTD"
+    label: "NATIONAL YTY_MTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -460,7 +460,7 @@ view: rpt_ventasytd {
   }
 
   measure: NATIONAL_QTY_MTDY {
-    label: "NATIONAL QTY_MTD_AÑO ANT"
+    label: "NATIONAL QTY_YTD_AÑO ANT"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -488,7 +488,7 @@ view: rpt_ventasytd {
 
 
   measure: NATIONAL_BUD_QTY_MTD {
-    label: "NATIONAL BUD QTY MTD"
+    label: "NATIONAL BUD QTY YTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -527,7 +527,7 @@ view: rpt_ventasytd {
 
 
   measure: BUD_NATIONAL_QTY_MTD {
-    label: "BUD NATIONAL QTY_MTD"
+    label: "BUD NATIONAL QTY_YTD"
 
 
     type: sum
@@ -577,7 +577,7 @@ view: rpt_ventasytd {
 
 
   measure: NATIONAL_AMOUNT_MTD {
-    label: "NATIONAL AMOUNT MTD"
+    label: "NATIONAL AMOUNT YTD"
     type: sum
     sql: ${znetval}/1000 ;;
 
@@ -593,7 +593,7 @@ view: rpt_ventasytd {
   }
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT {
-    label: "NATIONAL AMOUNT MTD AÑO ANTD"
+    label: "NATIONAL AMOUNT YTD AÑO ANTD"
     hidden: yes
     type: sum
     sql: ${znetval}/1000 ;;
@@ -620,7 +620,7 @@ view: rpt_ventasytd {
   }
 
   measure: NATIONAL_BUD_AMOUNT_MTD_MIL {
-    label: "NATIONAL BUD AMOUNT MTD MIL"
+    label: "NATIONAL BUD AMOUNT YTD MIL"
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "10"]
@@ -657,7 +657,7 @@ view: rpt_ventasytd {
 
 
   measure: BUD_NATIONAL_AMOUNT_MTD {
-    label: "BUD NATIONAL AMOUNT_MTD"
+    label: "BUD NATIONAL AMOUNT_YTD"
     type: number
 
 
@@ -716,7 +716,7 @@ view: rpt_ventasytd {
 
 
   measure: EXPORT_QTY_MTD {
-    label: "EXPORT QTY_MTD"
+    label: "EXPORT QTY_YTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -731,7 +731,7 @@ view: rpt_ventasytd {
   }
 
   measure: EXPORT_QTY_MTD_YEAR_ANT {
-    label: "EXPORT QTY_MTD_AÑO ANT"
+    label: "EXPORT QTY_YTD_AÑO ANT"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -764,7 +764,7 @@ view: rpt_ventasytd {
 
 
   measure: EXPORT_BUD_QTY_MTD {
-    label: "EXPORT BUD QTY MTD"
+    label: "EXPORT BUD QTY YTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -801,7 +801,7 @@ view: rpt_ventasytd {
 
 
   measure: BUD_EXPORT_QTY_MTD {
-    label: "BUD EXPORT QTY_MTD"
+    label: "BUD EXPORT QTY_YTD"
 
     type: sum
     sql: ${bill_qty}/1000 ;;
@@ -843,7 +843,7 @@ view: rpt_ventasytd {
 
 
   measure: EXPORT_AMOUNT_MTD {
-    label: "EXPORT AMOUNT MTD"
+    label: "EXPORT AMOUNT YTD"
     type: sum
     sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
@@ -862,7 +862,7 @@ view: rpt_ventasytd {
   }
 
   measure: EXPORT_AMOUNT_MTDY {
-    label: "EXPORT AMOUNT MTDY"
+    label: "EXPORT AMOUNT YTDY"
     type: sum
     sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
@@ -889,7 +889,7 @@ view: rpt_ventasytd {
 
 
   measure: EXPORT_BUD_AMOUNT_MTD_MIL {
-    label: "EXPORT BUD AMOUNT MTD MIL"
+    label: "EXPORT BUD AMOUNT YTD MIL"
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "20"]
@@ -927,7 +927,7 @@ view: rpt_ventasytd {
 
 
   measure: BUD_EXPORT_AMOUNT_MTD {
-    label: "BUD EXPORT AMOUNT_MTD"
+    label: "BUD EXPORT AMOUNT_YTD"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION}  END;;
@@ -1022,7 +1022,7 @@ view: rpt_ventasytd {
 
 
   measure: BUD_TOTAL_QTY {
-    label: "BUD TOTAL QTY"
+    label: "BUD TOTAL YTY"
     type: number
     sql: ${NATIONAL_BUD_QTY_MTD} + ${EXPORT_BUD_QTY_MTD} ;;
     #[#NATIONAL BUD QTY MTD]+ [#EXPORT BUD QTY MTD]
