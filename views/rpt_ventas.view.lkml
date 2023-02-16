@@ -392,7 +392,7 @@ when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "z"  end ;;
     hidden: yes
     type: yesno
     #sql: ${created_date} >= ${filter_start_date_date} AND ${created_date} <= ${filter_end_date_date} ;;
-    sql: ${created_year} = EXTRACT(YEAR FROM ${filter_start_date_date}) AND  ${created_year} = EXTRACT(MONTH FROM ${filter_start_date_date})  ;;
+    sql: ${created_year} =  EXTRACT(YEAR FROM ${filter_start_date_date}) and ${created_month} = CAST(EXTRACT(MONTH FROM ${filter_start_date_date}) AS STRING)  ;;
 # EXTRACT(YEAR FROM ${filter_start_date_date}) AND  EXTRACT(MONTH FROM ${filter_start_date_date})
    # sql: ${created_date} >= cast({% date_start created_date %} AS DATE) AND ${created_date} <= cast({% date_end created_date %} AS DATE) ;;
   }
@@ -407,7 +407,7 @@ when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "z"  end ;;
     hidden: yes
     type: yesno
     #sql: ${created_date} >= ${previous_start_date} AND ${created_date} <= ${previous_end_date} ;;
-    sql: ${created_year} = EXTRACT(YEAR FROM ${filter_start_date_date})-1 AND  ${created_year} = EXTRACT(MONTH FROM ${filter_start_date_date})  ;;
+    sql: ${created_year} = EXTRACT(YEAR FROM ${filter_start_date_date})-1  and ${created_month} = CAST(EXTRACT(MONTH FROM ${filter_start_date_date}) AS STRING)  ;;
     #sql: ${created_date} >= cast(${previous_start_date} AS DATE) AND ${created_date} <= cast(${previous_end_date} AS DATE) ;;
   }
 
