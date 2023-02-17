@@ -434,7 +434,7 @@ view: rpt_ventasytd {
         label: "Guatemala"
       }
       when: {
-        sql: ${TABLE}.SALESORG in ( "DKF1","DKF3","SEF1","SEF2") ;;
+        sql: ${TABLE}.SALESORG in ( "DKF1","DKF3","SEF1","USF2") ;;
         label: "Dinamarca"
       }
       when: {

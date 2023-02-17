@@ -298,6 +298,39 @@ when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "z"  end ;;
   }
 
 
+  dimension: category_orden_dinamarca {
+    type: string
+    sql: case
+
+when ${TABLE}.CATEGORY="Mediapack" then "a1"
+when ${TABLE}.CATEGORY="Catering" then "a2"
+when ${TABLE}.CATEGORY="Fish" then "a3"
+when ${TABLE}.CATEGORY="Ham" then "a4"
+when ${TABLE}.CATEGORY="Luncheon" then "a5"
+when ${TABLE}.CATEGORY="Pullman" then "a6"
+when ${TABLE}.CATEGORY="Roundfood" then "a7"
+when ${TABLE}.CATEGORY="Beverage" then "a8"
+when ${TABLE}.CATEGORY="Dekopak" then "a9"
+when ${TABLE}.CATEGORY="Feta" then "a10"
+when ${TABLE}.CATEGORY="Milkpowder" then "a11"
+when ${TABLE}.CATEGORY="Pocklt" then "a12"
+when ${TABLE}.CATEGORY="PeelOff" then "a13"
+when ${TABLE}.CATEGORY="Super" then "a14"
+when ${TABLE}.CATEGORY="Other" then "a15"
+
+
+
+      when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "Z1"
+      when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "b"  end ;;
+  }
+
+
+
+
+
+
+
+
 
 
 
