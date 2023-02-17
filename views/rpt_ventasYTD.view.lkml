@@ -62,6 +62,33 @@ view: rpt_ventasytd {
   }
 
 
+  dimension: category_orden_dinamarca {
+    type: string
+    sql: case
+
+when ${TABLE}.CATEGORY="Mediapack" then "a01"
+when ${TABLE}.CATEGORY="Catering" then "a02"
+when ${TABLE}.CATEGORY="Fish" then "a03"
+when ${TABLE}.CATEGORY="Ham" then "a04"
+when ${TABLE}.CATEGORY="Luncheon" then "a05"
+when ${TABLE}.CATEGORY="Pullman" then "a06"
+when ${TABLE}.CATEGORY="Roundfood" then "a07"
+when ${TABLE}.CATEGORY="Beverage" then "a08"
+when ${TABLE}.CATEGORY="Dekopak" then "a09"
+when ${TABLE}.CATEGORY="Feta" then "a10"
+when ${TABLE}.CATEGORY="Milkpowder" then "a11"
+when ${TABLE}.CATEGORY="Pocklt" then "a12"
+when ${TABLE}.CATEGORY="PeelOff" then "a13"
+when ${TABLE}.CATEGORY="Super" then "a14"
+when ${TABLE}.CATEGORY="Other" then "a15"
+
+
+
+      when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "Z1"
+      when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "b"  end ;;
+  }
+
+
 
   measure: count {
     type: count
