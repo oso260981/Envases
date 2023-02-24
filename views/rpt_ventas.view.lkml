@@ -1162,7 +1162,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   measure: TOTAL_AMOUNT_YEAR_ANT {
     label: "TOTAL AMOUNT AÑO ANT"
     type: number
-    sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${Z_BUD_EXPORT_AMOUNT} ;;
+    sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${EXPORT AMOUNT MTD AÑO ANT} ;;
     #[#NATIONAL AMOUNT MTD AÑO ANT]+[#EXPORT AMOUNT MTD AÑO ANT]
 
      drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT,Z_BUD_EXPORT_AMOUNT,TOTAL_AMOUNT_YEAR_ANT]
@@ -1170,9 +1170,9 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: VS_YEAR_ANT_VAL_T {
-    label: "% VS AÑO ANT VAL T"
+    label: "% VS AÑO ANT VAL"
     type: number
-    sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${TOTAL_AMOUNT_YEAR_ANT} = 0 THEN 1
+    sql: CASE WHEN ${TOTAL_AMOUNT} > 1 AND ${TOTAL_AMOUNT_YEAR_ANT} = 0 THEN 1
               WHEN ${TOTAL_AMOUNT} = 0 AND ${TOTAL_AMOUNT_YEAR_ANT} > 0 THEN -1
               WHEN (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))
              END *100;;
