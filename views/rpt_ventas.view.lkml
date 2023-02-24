@@ -243,8 +243,8 @@ view: rpt_ventas {
 
   dimension: category {
     type: string
-    sql: case when ${TABLE}.CATEGORY is null then 'Otros' else ${TABLE}.CATEGORY  end ;;
-
+   # sql: case when ${TABLE}.CATEGORY is null then 'Otros' else ${TABLE}.CATEGORY  end ;;
+    sql:  ${TABLE}.CATEGORY ;;
 
     html: {% if value == 'TOTAL MONEDA ORIGEN' or
                 value == 'TOTAL MXN'
