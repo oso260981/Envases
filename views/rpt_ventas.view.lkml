@@ -243,8 +243,8 @@ view: rpt_ventas {
 
   dimension: category {
     type: string
-    sql: case when ${TABLE}.CATEGORY is null then 'Otros' else ${TABLE}.CATEGORY  end ;;
-   # sql:  ${TABLE}.CATEGORY ;;
+   # sql: case when ${TABLE}.CATEGORY is null then 'Otros' else ${TABLE}.CATEGORY  end ;;
+    sql:  ${TABLE}.CATEGORY ;;
 
     html: {% if value == 'TOTAL MONEDA ORIGEN' or
                 value == 'TOTAL MXN'
@@ -1162,7 +1162,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   measure: TOTAL_AMOUNT_YEAR_ANT {
     label: "TOTAL AMOUNT AÑO ANT"
     type: number
-    sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${EXPORT AMOUNT MTD AÑO ANT} ;;
+    sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${Z_BUD_EXPORT_AMOUNT} ;;
     #[#NATIONAL AMOUNT MTD AÑO ANT]+[#EXPORT AMOUNT MTD AÑO ANT]
 
      drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT,Z_BUD_EXPORT_AMOUNT,TOTAL_AMOUNT_YEAR_ANT]
