@@ -1,7 +1,62 @@
 view: rpt_ventas {
   derived_table: {
     sql: SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
-      LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY
+      LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY= NOT IN ('TOTAL MXN')
+
+   UNION ALL
+
+   SELECT V.NET_WGT_DL
+,V.UNIT_OF_WT
+,V.STAT_CURR
+,V.MATL_GROUP
+,V.BILL_QTY
+,V.znetval *UKURS  znetval
+,V.ZPPTOQTY
+,V.ZPPTO
+,V.ZPRICEVAL
+,V.LEN
+,V.UNIT_DIM
+,V.CURRENCY
+,V.UNIT
+,V.SOLD_TO
+,V.CUST_GROUP
+,V.MATL_TYPE
+,V.PRODH1
+,V.SIZE_DIM
+,V.EXTMATLGRP
+,V.COUNTRY
+,V.SALES_GRP
+,V.SALES_OFF
+,V.PRODH2
+,V.PRODH3
+,V.PRODH4
+,V.PROD_HIER
+,V.ZIOSD00A
+,V.VERSION
+,V.PLANT
+,V.MATERIAL
+,V.DISTR_CHAN
+,V.DIVISION
+,V.SALESORG
+,V.CALDAY
+,V.LOC_CURRCY
+,V.BASE_UOM
+,'TOTAL MXN' CATEGORY
+,V.SUBCATEGORY
+,V.CLIENT
+,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR  FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY
+LEFT JOIN (
+
+ SELECT CAST(99999999 - CAST(GDATU AS NUMERIC) AS STRING) AS CALDAY, TRIM(FCURR) FCURR, TRIM(TCURR) TCURR, UKURS,c.date FROM `envases-analytics-eon-poc.DATASET_RAW.ECC_PROD_TCURR`
+ left join envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on c.CALDAY=CAST(99999999 - CAST(GDATU AS NUMERIC) AS STRING)
+ WHERE TRIM(FCURR) IN ('USD', 'EUR', 'DKK', 'GTQ') AND TRIM(TCURR) = 'MXN' AND TRIM(KURST) = 'M'  AND    c.DATE= CAST({% date_start date_filter %} AS DATE)
+
+) mo on   v.STAT_CURR=mo.FCURR
+WHERE CATEGORY='TOTAL MONEDA ORIGEN'
+
+
+
        ;;
   }
 
@@ -43,7 +98,11 @@ view: rpt_ventas {
   }
 
 
+  dimension: fechanumero {
 
+    type: string
+    sql:  replace(SUBSTR( CAST ({% date_start date_filter %} AS STRING), 1,10),"-","")    ;;
+  }
 
 
 
