@@ -401,14 +401,16 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   dimension: is_current_period {
     hidden: yes
     type: yesno
-    sql: ${created_year} =  EXTRACT(YEAR FROM ${filter_start_date_raw}) ;;
+    sql: CAST(${created_date} AS DATE) >= DATE_TRUNC(CAST({% date_start date_filter %} AS DATE), YEAR) AND CAST(${created_date} AS DATE) <= CAST({% date_start date_filter %} AS DATE) ;;
+    #sql: ${created_year} =  EXTRACT(YEAR FROM ${filter_start_date_raw}) ;;
   }
 
   dimension: is_previous_period {
     hidden: yes
     type: yesno
     # sql: ${created_date} >= ${previous_start_date} AND ${created_date} < ${filter_start_date_date} ;;
-    sql:  ${created_year} =  EXTRACT(YEAR FROM ${filter_start_date_raw})-1 ;;
+    #sql:  ${created_year} =  EXTRACT(YEAR FROM ${filter_start_date_raw})-1 ;;
+     sql: CAST(${created_date} AS DATE) >=  DATE_ADD(DATE (DATE_TRUNC(CAST({% date_start date_filter %} AS DATE), YEAR)), INTERVAL -1 year)   AND CAST(${created_date} AS DATE) <= DATE_ADD(DATE (CAST({% date_start date_filter %} AS DATE)), INTERVAL -1 year)   ;;
   }
 
 
