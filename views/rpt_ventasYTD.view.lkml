@@ -48,7 +48,7 @@ view: rpt_ventasytd {
       when ${TABLE}.CATEGORY="Línea General" then "p"
       when ${TABLE}.CATEGORY="Bote Sanitario" then "q"
       when ${TABLE}.CATEGORY="Bote Atún" then "r"
-      when ${TABLE}.CATEGORY like "%Bote Oval%" then "s"
+      when ${TABLE}.CATEGORY like "%Oval%" then "s"
       when ${TABLE}.CATEGORY="Tapa Easy Open" then "t"
       when ${TABLE}.CATEGORY="Fondo Charola y Bafle" then "u"
       when ${TABLE}.CATEGORY="Tapa Twist Off" then "v"
