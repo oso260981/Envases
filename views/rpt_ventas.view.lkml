@@ -55,6 +55,10 @@ LEFT JOIN (
 ) mo on   v.STAT_CURR=mo.FCURR
 WHERE CATEGORY='TOTAL MONEDA ORIGEN'
 
+union all
+
+SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+      LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY in ('TOTAL MXN') and SALESORG in ( "MXF1","MXFC")
 
 
        ;;
