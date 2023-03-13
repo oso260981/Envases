@@ -487,8 +487,9 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   dimension: is_current_period {
     hidden: yes
     type: yesno
+    sql: CAST(${created_date} AS DATE) >= DATE_TRUNC(CAST({% date_start date_filter %} AS DATE), MONTH) AND CAST(${created_date} AS DATE) <= CAST({% date_start date_filter %} AS DATE) ;;
     #sql: ${created_date} >= ${filter_start_date_date} AND ${created_date} <= ${filter_end_date_date} ;;
-    sql: EXTRACT(YEAR FROM CAST(${created_date} AS DATE))  =  EXTRACT(YEAR FROM CAST({% date_start date_filter %} AS DATE)) and EXTRACT(MONTH FROM CAST(${created_date} AS DATE))=EXTRACT(MONTH FROM CAST({% date_start date_filter %} AS DATE))  ;;
+   # sql: EXTRACT(YEAR FROM CAST(${created_date} AS DATE))  =  EXTRACT(YEAR FROM CAST({% date_start date_filter %} AS DATE)) and EXTRACT(MONTH FROM CAST(${created_date} AS DATE))=EXTRACT(MONTH FROM CAST({% date_start date_filter %} AS DATE))  ;;
 # EXTRACT(YEAR FROM ${filter_start_date_date}) AND  EXTRACT(MONTH FROM ${filter_start_date_date})
    # sql: ${created_date} >= cast({% date_start created_date %} AS DATE) AND ${created_date} <= cast({% date_end created_date %} AS DATE) ;;
   }
@@ -509,8 +510,9 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   dimension: is_previous_period {
     hidden: yes
     type: yesno
+    sql: CAST(${created_date} AS DATE) >=  DATE_ADD(DATE (DATE_TRUNC(CAST({% date_start date_filter %} AS DATE), MONTH)), INTERVAL -1 year)   AND CAST(${created_date} AS DATE) <= DATE_ADD(DATE (CAST({% date_start date_filter %} AS DATE)), INTERVAL -1 year)   ;;
     #sql: ${created_date} >= ${previous_start_date} AND ${created_date} <= ${previous_end_date} ;;
-    sql: EXTRACT(YEAR FROM CAST(${created_date} AS DATE))  =  EXTRACT(YEAR FROM CAST({% date_start date_filter %} AS DATE))-1 and EXTRACT(MONTH FROM CAST(${created_date} AS DATE))=EXTRACT(MONTH FROM CAST({% date_start date_filter %} AS DATE))   ;;
+    #sql: EXTRACT(YEAR FROM CAST(${created_date} AS DATE))  =  EXTRACT(YEAR FROM CAST({% date_start date_filter %} AS DATE))-1 and EXTRACT(MONTH FROM CAST(${created_date} AS DATE))=EXTRACT(MONTH FROM CAST({% date_start date_filter %} AS DATE))   ;;
     #sql: ${created_date} >= cast(${previous_start_date} AS DATE) AND ${created_date} <= cast(${previous_end_date} AS DATE) ;;
   }
 
