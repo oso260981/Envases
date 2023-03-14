@@ -354,7 +354,7 @@ when ${TABLE}.CATEGORY="Fondo Charola y Bafle" then "u"
 when ${TABLE}.CATEGORY="Tapa Twist Off" then "v"
 when ${TABLE}.CATEGORY="Varios" then "w"
 when ${TABLE}.CATEGORY="Fish." then "x"
-when ${TABLE}.CATEGORY="PeelOff," then "y"
+when ${TABLE}.CATEGORY="PeelOff" then "y"
 
 
 when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "Z1"
