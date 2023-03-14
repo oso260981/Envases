@@ -326,6 +326,7 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analyti
 
 
   dimension: category_orden {
+    label: "category_orden_mexico"
     type: string
     sql: case
 
