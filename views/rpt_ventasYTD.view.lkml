@@ -113,6 +113,18 @@ when ${TABLE}.CATEGORY="Varios" then "A23"
 when ${TABLE}.CATEGORY="Fish." then "A24"
 when ${TABLE}.CATEGORY="PeelOff." then "A25"
 
+when ${TABLE}.CATEGORY="Coating and Printing Services" then "A26"
+when ${TABLE}.CATEGORY="Miscelaneous" then "A27"
+when ${TABLE}.CATEGORY="Pails and lids for pails" then "A28"
+when ${TABLE}.CATEGORY="Tinplate and lids for tinplate" then "A29"
+
+when ${TABLE}.CATEGORY="Beverage Draught" then "A30"
+when ${TABLE}.CATEGORY="Beverage Gravity" then "A31"
+when ${TABLE}.CATEGORY="Industrial" then "A32"
+when ${TABLE}.CATEGORY="SC Print" then "A33"
+
+
+
 
       when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "Z1"
       when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "z"  end ;;
