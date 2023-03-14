@@ -1,7 +1,64 @@
 view: rpt_ventasytd {
   derived_table: {
     sql: SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
-      LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY
+      LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY NOT IN ('TOTAL MXN')
+
+   UNION ALL
+
+   SELECT V.NET_WGT_DL
+,V.UNIT_OF_WT
+,V.STAT_CURR
+,V.MATL_GROUP
+,V.BILL_QTY
+,V.znetval *UKURS  znetval
+,V.ZPPTOQTY
+,V.ZPPTO
+,V.ZPRICEVAL
+,V.LEN
+,V.UNIT_DIM
+,V.CURRENCY
+,V.UNIT
+,V.SOLD_TO
+,V.CUST_GROUP
+,V.MATL_TYPE
+,V.PRODH1
+,V.SIZE_DIM
+,V.EXTMATLGRP
+,V.COUNTRY
+,V.SALES_GRP
+,V.SALES_OFF
+,V.PRODH2
+,V.PRODH3
+,V.PRODH4
+,V.PROD_HIER
+,V.ZIOSD00A
+,V.VERSION
+,V.PLANT
+,V.MATERIAL
+,V.DISTR_CHAN
+,V.DIVISION
+,V.SALESORG
+,V.CALDAY
+,V.LOC_CURRCY
+,V.BASE_UOM
+,'TOTAL MXN' CATEGORY
+,V.SUBCATEGORY
+,V.CLIENT
+,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR  FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY
+LEFT JOIN (
+
+ SELECT CAST(99999999 - CAST(GDATU AS NUMERIC) AS STRING) AS CALDAY, TRIM(FCURR) FCURR, TRIM(TCURR) TCURR, UKURS,c.date FROM `envases-analytics-eon-poc.DATASET_RAW.ECC_PROD_TCURR`
+ left join envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on c.CALDAY=CAST(99999999 - CAST(GDATU AS NUMERIC) AS STRING)
+ WHERE TRIM(FCURR) IN ('USD', 'EUR', 'DKK', 'GTQ') AND TRIM(TCURR) = 'MXN' AND TRIM(KURST) = 'M'  AND    c.DATE= CAST({% date_start date_filter %} AS DATE)
+
+) mo on   v.STAT_CURR=mo.FCURR
+WHERE CATEGORY='TOTAL MONEDA ORIGEN'
+
+union all
+
+SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+      LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY in ('TOTAL MXN') and SALESORG in ( "MXF1","MXFC")
        ;;
   }
 
@@ -30,31 +87,31 @@ view: rpt_ventasytd {
     type: string
     sql: case
 
-      when ${TABLE}.CATEGORY="CP 19L" then "a"
-      when ${TABLE}.CATEGORY="CP 15L" then "b"
-      when ${TABLE}.CATEGORY="CP 10L" then "c"
-      when ${TABLE}.CATEGORY="CP 08L" then "d"
-      when ${TABLE}.CATEGORY="CP 04L" then "e"
-      when ${TABLE}.CATEGORY="Cubeta de Plastico" then "f"
-      when ${TABLE}.CATEGORY="Porron de Plastico" then "g"
-      when ${TABLE}.CATEGORY="Tambores de Plastico" then "h"
-      when ${TABLE}.CATEGORY="Bote bocan" then "i"
-      when ${TABLE}.CATEGORY="Tambores" then "j"
-      when ${TABLE}.CATEGORY="Tambores Conicos" then "k"
-      when ${TABLE}.CATEGORY="Cubeta de Lamina" then "l"
-      when ${TABLE}.CATEGORY="Alcoholero" then "m"
-      when ${TABLE}.CATEGORY="Bote de Pintura" then "n"
-      when ${TABLE}.CATEGORY="Bote de Aerosol" then "o"
-      when ${TABLE}.CATEGORY="Línea General" then "p"
-      when ${TABLE}.CATEGORY="Bote Sanitario" then "q"
-      when ${TABLE}.CATEGORY="Bote Atún" then "r"
-      when ${TABLE}.CATEGORY like "%Oval%" then "s"
-      when ${TABLE}.CATEGORY="Tapa Easy Open" then "t"
-      when ${TABLE}.CATEGORY="Fondo Charola y Bafle" then "u"
-      when ${TABLE}.CATEGORY="Tapa Twist Off" then "v"
-      when ${TABLE}.CATEGORY="Varios" then "w"
-      when ${TABLE}.CATEGORY="Fish." then "x"
-      when ${TABLE}.CATEGORY="PeelOff," then "y"
+   when ${TABLE}.CATEGORY="CP 19L" then "A01"
+when ${TABLE}.CATEGORY="CP 15L" then "A02"
+when ${TABLE}.CATEGORY="CP 10L" then "A03"
+when ${TABLE}.CATEGORY="CP 08L" then "A04"
+when ${TABLE}.CATEGORY="CP 04L" then "A05"
+when ${TABLE}.CATEGORY="Cubeta de Plastico" then "A06"
+when ${TABLE}.CATEGORY="Porron de Plastico" then "A07"
+when ${TABLE}.CATEGORY="Tambores de Plastico" then "A08"
+when ${TABLE}.CATEGORY="Bote bocan" then "A09"
+when ${TABLE}.CATEGORY="Tambores" then "A10"
+when ${TABLE}.CATEGORY="Tambores Conicos" then "A11"
+when ${TABLE}.CATEGORY="Cubeta de Lamina" then "A12"
+when ${TABLE}.CATEGORY="Alcoholero" then "A13"
+when ${TABLE}.CATEGORY="Bote de Pintura" then "A14"
+when ${TABLE}.CATEGORY="Bote de Aerosol" then "A15"
+when ${TABLE}.CATEGORY="Línea General" then "A16"
+when ${TABLE}.CATEGORY="Bote Sanitario" then "A17"
+when ${TABLE}.CATEGORY="Bote Atún" then "A18"
+when ${TABLE}.CATEGORY="Bote Oval" then "A19"
+when ${TABLE}.CATEGORY="Tapa Easy Open" then "A20"
+when ${TABLE}.CATEGORY="Fondo Charola y Bafle" then "A21"
+when ${TABLE}.CATEGORY="Tapa Twiss Off" then "A22"
+when ${TABLE}.CATEGORY="Varios" then "A23"
+when ${TABLE}.CATEGORY="Fish." then "A24"
+when ${TABLE}.CATEGORY="PeelOff." then "A25"
 
 
       when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "Z1"
