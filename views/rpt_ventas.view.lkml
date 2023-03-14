@@ -366,6 +366,12 @@ when ${TABLE}.CATEGORY="Beverage Gravity" then "A31"
 when ${TABLE}.CATEGORY="Industrial" then "A32"
 when ${TABLE}.CATEGORY="SC Print" then "A33"
 
+when ${TABLE}.CATEGORY="Bote de Aerosol GT" then "A34"
+when ${TABLE}.CATEGORY="Bote de Pintura GT" then "A35"
+when ${TABLE}.CATEGORY="Bote Sanitario GT" then "A36"
+when ${TABLE}.CATEGORY="Bote Sanitario GT" then "A37"
+when ${TABLE}.CATEGORY="Varios GT" then "A38"
+
 
 when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "Z1"
 when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "z"  end ;;
