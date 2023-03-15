@@ -88,6 +88,8 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analyti
     label: "Período"
     description: "Use this date filter in combination with the timeframes dimension for dynamic date filtering"
     type: date
+   # default_value: "6 weeks"
+
   }
 
 
