@@ -623,7 +623,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   ####################################Medias Calculadas###############################################################################
 
   measure: NATIONAL_QTY_MTD {
-    label: "NATIONAL QTY_MTD"
+    label: "NATIONAL QTY MTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -641,7 +641,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: NATIONAL_QTY_MTDY {
-    label: "NATIONAL QTY_MTD_AÑO ANT"
+    label: "NATIONAL QTY_MTD AÑO ANT"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -687,7 +687,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: BUD_DIA_MES_NATIONAL_QTY {
-    label: "BUD_DÍA_MES_NATIONAL_QTY"
+    label: "BUD DÍA MES NATIONAL QTY"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${NATIONAL_BUD_QTY_MTD}/31
               WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 2 THEN ${NATIONAL_BUD_QTY_MTD}/28
@@ -708,7 +708,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_NATIONAL_QTY_MTD {
-    label: "BUD NATIONAL QTY_MTD"
+    label: "BUD NATIONAL QTY MTD"
 
 
     type: sum
@@ -816,7 +816,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_DIA_MES_NATIONAL_AMOUNT {
-    label: "BUD_DÍA_MES_NATIONAL_AMOUNT"
+    label: "BUD DÍA MES NATIONAL AMOUNT"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/31
               WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 2 THEN ${NATIONAL_BUD_AMOUNT_MTD_MIL}/28
@@ -838,7 +838,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_NATIONAL_AMOUNT_MTD {
-    label: "BUD NATIONAL AMOUNT_MTD"
+    label: "BUD NATIONAL AMOUNT MTD"
     type: number
 
 
@@ -851,7 +851,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: Z_BUD_NATIONAL_AMOUNT {
-    label: "Z_BUD  NATIONAL AMOUNT"
+    label: "Z BUD NATIONAL AMOUNT"
     type: sum
 
     sql: ${znetval}/1000 ;;
@@ -897,7 +897,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_QTY_MTD {
-    label: "EXPORT QTY_MTD"
+    label: "EXPORT QTY MTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -912,7 +912,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: EXPORT_QTY_MTD_YEAR_ANT {
-    label: "EXPORT QTY_MTD_AÑO ANT"
+    label: "EXPORT QTY_MTD AÑO ANT"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -961,7 +961,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_DIA_MES_EXPORT_QTY {
-    label: "BUD_DÍA_MES_EXPORT_QTY"
+    label: "BUD DÍA MES EXPORT QTY"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${EXPORT_BUD_QTY_MTD}/31
               WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 2 THEN ${EXPORT_BUD_QTY_MTD}/28
@@ -982,7 +982,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_EXPORT_QTY_MTD {
-    label: "BUD EXPORT QTY_MTD"
+    label: "BUD EXPORT QTY MTD"
 
     type: sum
     sql: ${bill_qty}/1000 ;;
@@ -1086,7 +1086,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_DIA_MES_EXPORT_AMOUNT {
-    label: "BUD_DÍA_MES_EXPORT_AMOUNT"
+    label: "BUD DÍA MES EXPORT AMOUNT"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/31
               WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 2 THEN ${EXPORT_BUD_AMOUNT_MTD_MIL}/28
@@ -1108,7 +1108,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_EXPORT_AMOUNT_MTD {
-    label: "BUD EXPORT AMOUNT_MTD"
+    label: "BUD EXPORT AMOUNT MTD"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION}  END;;
@@ -1121,7 +1121,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure:  Z_BUD_EXPORT_AMOUNT {
-    label: "Z_BUD  EXPORT AMOUNT"
+    label: "Z BUD  EXPORT AMOUNT"
 
     type: sum
     sql: ${znetval} ;;
@@ -1358,7 +1358,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: z_BUD_NATIONAL_AMOUNT{
-    label: "z_BUD NATIONAL AMOUNT"
+    label: "z BUD NATIONAL AMOUNT"
 
 
     type: sum
@@ -1380,7 +1380,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: z_BUD_EXPORT_AMOUNT {
-    label: "z_BUD EXPORT AMOUNT"
+    label: "z BUD EXPORT AMOUNT"
 
 
 
