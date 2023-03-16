@@ -374,6 +374,11 @@ when ${TABLE}.CATEGORY="Bote Sanitario GT" then "A36"
 when ${TABLE}.CATEGORY="Bote Sanitario GT" then "A37"
 when ${TABLE}.CATEGORY="Varios GT" then "A38"
 
+when ${TABLE}.CATEGORY="Bote Pint. Envases Ohio" then "A39"
+when ${TABLE}.CATEGORY="Cub.Lam. Envases Ohio" then "A40"
+
+
+
 
 when ${TABLE}.CATEGORY="TOTAL MONEDA ORIGEN" then "Z1"
 when ${TABLE}.CATEGORY="TOTAL MXN" then "Z2" else "z"  end ;;
