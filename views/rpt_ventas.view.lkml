@@ -518,7 +518,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   dimension: fecha {
     label: "fecha filtro"
     type: string
-    sql: EXTRACT(month FROM ${filter_start_date_raw}) ;;
+    sql: CAST({% date_start date_filter %} AS DATE) ;;
   }
 
 
