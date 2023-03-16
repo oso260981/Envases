@@ -728,7 +728,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT {
-    label: "NATIONAL AMOUNT YTD AÑO ANTD"
+    label: "NATIONAL AMOUNT YTD AÑO ANT"
     hidden: yes
     type: sum
     sql: ${znetval}/1000 ;;
@@ -1263,7 +1263,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR{
-    label: "NATIONAL AMOUNT MTD AÑO ANTD"
+    label: "NATIONAL AMOUNT MTD AÑO ANT"
 
     type: sum
     sql: ${znetval}/1000 ;;
