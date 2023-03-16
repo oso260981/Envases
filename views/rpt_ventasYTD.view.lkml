@@ -130,6 +130,10 @@ when ${TABLE}.CATEGORY="Bote Sanitario GT" then "A37"
 when ${TABLE}.CATEGORY="Varios GT" then "A38"
 
 
+when ${TABLE}.CATEGORY="Bote Pint. Envases Ohio" then "A39"
+when ${TABLE}.CATEGORY="Cub.Lam. Envases Ohio" then "A40"
+
+
 
 
 
@@ -384,6 +388,14 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   <p style="">{{ rendered_value }}</p>
   {% endif %} ;;
   }
+
+
+  dimension: fecha {
+    label: "fecha filtro"
+    type: string
+    sql: CAST({% date_start date_filter %} AS DATE) ;;
+  }
+
 
 
 
