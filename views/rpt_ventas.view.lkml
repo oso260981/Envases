@@ -114,11 +114,8 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analyti
   }
 
 
-  dimension:UltimafechaCarga {
 
-    type: string
-    sql:  MAX(CAST(${TABLE}.Fecha AS TIMESTAMP));;
-  }
+
 
 
 
