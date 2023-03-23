@@ -123,6 +123,7 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' TCURR  FR
 
     type: number
     sql: ${TABLE}.UKURS ;;
+    value_format: "#,##0.00"
   }
 
   dimension: FCURR {
