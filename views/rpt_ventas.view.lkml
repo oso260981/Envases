@@ -1,6 +1,6 @@
 view: rpt_ventas {
   derived_table: {
-    sql: SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+    sql: SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' FCURR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
       LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY NOT IN ('TOTAL MXN')
 
    UNION ALL
@@ -44,7 +44,9 @@ view: rpt_ventas {
 ,'TOTAL MXN' CATEGORY
 ,V.SUBCATEGORY
 ,V.CLIENT
-,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR  FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR
+,mo.UKURS
+,mo.FCURR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
 LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY
 LEFT JOIN (
 
@@ -57,7 +59,7 @@ WHERE CATEGORY='TOTAL MONEDA ORIGEN'
 
 union all
 
-SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' TCURR  FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
       LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY in ('TOTAL MXN') and SALESORG in ( "MXF1","MXFC")
 
 
@@ -117,7 +119,17 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analyti
 
 
 
+  dimension: UKURS {
 
+    type: number
+    sql: ${TABLE}.UKURS ;;
+  }
+
+  dimension: FCURR {
+
+    type: string
+    sql: ${TABLE}.FCURR ;;
+  }
 
   dimension: Client {
     label: "Cliente"

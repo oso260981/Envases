@@ -29,4 +29,5 @@ explore: rpt_ventas {}
 explore: rpt_ventasytd {}
 explore: calendar {}
 
+
 explore: envases_2023 {}
