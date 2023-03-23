@@ -98,6 +98,9 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analyti
 
 
 
+
+
+
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -108,6 +111,13 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR FROM envases-analyti
 
     type: string
     sql:  replace(SUBSTR( CAST ({% date_start date_filter %} AS STRING), 1,10),"-","")    ;;
+  }
+
+
+  dimension:UltimafechaCarga {
+
+    type: string
+    sql:  MAX(CAST(${TABLE}.Fecha AS TIMESTAMP));;
   }
 
 
