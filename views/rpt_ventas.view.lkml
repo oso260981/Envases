@@ -704,7 +704,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
     }
 
     filters: [distr_chan: "10"]
-    filters: [version: "000"]
+    filters: [version: "A00"]
      drill_fields: [ Client,NATIONAL_BUD_QTY_MTD]
  #   value_format: "#,##0.00"
 
@@ -974,7 +974,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
-    filters: [version: "000"]
+    filters: [version: "A00"]
     filters: {
       field: is_current_period
       value: "yes"
