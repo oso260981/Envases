@@ -1314,9 +1314,9 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   measure: VS_BUD_T {
     label: "% VS BUD T"
     type: number
-    sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${BUD_TOTAL_AMOUNT} = 0 THEN 1
-              WHEN ${TOTAL_AMOUNT} = 0 AND ${BUD_TOTAL_AMOUNT} > 0 THEN -1
-              WHEN (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))-1
+    sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${BUD_TOTAL_AMOUNT_YEAR} = 0 THEN 1
+              WHEN ${TOTAL_AMOUNT} = 0 AND ${BUD_TOTAL_AMOUNT_YEAR} > 0 THEN -1
+              WHEN (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT_YEAR},0))-1=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT_YEAR},0))-1
              END * 100;;
     value_format: "0.00\%"
 
