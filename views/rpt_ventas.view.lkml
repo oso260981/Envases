@@ -1268,15 +1268,15 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
 
-  measure: TOTAL_AMOUNT_YEAR_ANT {
-    label: "TOTAL AMOUNT AÑO ANT"
-    type: number
-    sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${Z_BUD_EXPORT_AMOUNT} ;;
+  #measure: TOTAL_AMOUNT_YEAR_ANT {
+  #  label: "TOTAL AMOUNT AÑO ANT2"
+  #  type: number
+  #  sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${Z_BUD_EXPORT_AMOUNT} ;;
     #[#NATIONAL AMOUNT MTD AÑO ANT]+[#EXPORT AMOUNT MTD AÑO ANT]
 
-     drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT,Z_BUD_EXPORT_AMOUNT,TOTAL_AMOUNT_YEAR_ANT]
-    value_format: "#,##0.00"
-  }
+  #   drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT,Z_BUD_EXPORT_AMOUNT,TOTAL_AMOUNT_YEAR_ANT]
+  #  value_format: "#,##0.00"
+  #}
 
   measure: VS_YEAR_ANT_VAL_T {
     label: "% VS AÑO ANT VAL"
@@ -1370,14 +1370,14 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
 
-  measure:  TOTAL_AMOUNT_YEAR_ANT_YEAR {
+  measure:  TOTAL_AMOUNT_YEAR_ANT {
     label: "TOTAL AMOUNT AÑO ANT"
     type: number
     sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR} + ${EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR} ;;
 
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
-     drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR,EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR,TOTAL_AMOUNT_YEAR_ANT_YEAR]
+     drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR,EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR,TOTAL_AMOUNT_YEAR_ANT]
     value_format: "#,##0.00"
   }
 
