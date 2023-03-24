@@ -589,7 +589,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   ####################################Medias Calculadas###############################################################################
 
   measure: NATIONAL_QTY_MTD {
-    label: "NATIONAL QTY YTD"
+    label: "NATIONAL QTY MTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -607,7 +607,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: NATIONAL_QTY_MTDY {
-    label: "NATIONAL QTY YTD AÑO ANT"
+    label: "NATIONAL QTY_MTD AÑO ANT"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -635,7 +635,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: NATIONAL_BUD_QTY_MTD {
-    label: "NATIONAL BUD QTY YTD"
+    label: "NATIONAL BUD QTY MTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -645,7 +645,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
     }
 
     filters: [distr_chan: "10"]
-    filters: [version: "000"]
+    filters: [version: "A00"]
     drill_fields: [ Client,NATIONAL_BUD_QTY_MTD]
     #   value_format: "#,##0.00"
 
@@ -674,7 +674,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_NATIONAL_QTY_MTD {
-    label: "BUD NATIONAL QTY YTD"
+    label: "BUD NATIONAL QTY MTD"
 
 
     type: sum
@@ -724,7 +724,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: NATIONAL_AMOUNT_MTD {
-    label: "NATIONAL AMOUNT YTD"
+    label: "NATIONAL AMOUNT MTD"
     type: sum
     sql: ${znetval}/1000 ;;
 
@@ -735,12 +735,12 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
     filters: [distr_chan: "10"]
     filters: [version: "000"]
-    drill_fields: [ Client,NATIONAL_AMOUNT_MTD]
+    drill_fields: [ category_orden,Client,NATIONAL_AMOUNT_MTD]
     value_format: "#,##0.00"
   }
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT {
-    label: "NATIONAL AMOUNT YTD AÑO ANT"
+    label: "NATIONAL AMOUNT MTD AÑO ANT"
     hidden: yes
     type: sum
     sql: ${znetval}/1000 ;;
@@ -767,7 +767,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: NATIONAL_BUD_AMOUNT_MTD_MIL {
-    label: "NATIONAL BUD AMOUNT YTD MIL"
+    label: "NATIONAL BUD AMOUNT MTD MIL"
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "10"]
@@ -804,7 +804,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_NATIONAL_AMOUNT_MTD {
-    label: "BUD NATIONAL AMOUNT YTD"
+    label: "BUD NATIONAL AMOUNT MTD"
     type: number
 
 
@@ -863,7 +863,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_QTY_MTD {
-    label: "EXPORT QTY YTD"
+    label: "EXPORT QTY MTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -878,7 +878,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: EXPORT_QTY_MTD_YEAR_ANT {
-    label: "EXPORT QTY YTD AÑO ANT"
+    label: "EXPORT QTY_MTD AÑO ANT"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -911,11 +911,11 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_BUD_QTY_MTD {
-    label: "EXPORT BUD QTY YTD"
+    label: "EXPORT BUD QTY MTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
-    filters: [version: "000"]
+    filters: [version: "A00"]
     filters: {
       field: is_current_period
       value: "yes"
@@ -948,7 +948,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_EXPORT_QTY_MTD {
-    label: "BUD EXPORT QTY YTD"
+    label: "BUD EXPORT QTY MTD"
 
     type: sum
     sql: ${bill_qty}/1000 ;;
@@ -990,7 +990,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_AMOUNT_MTD {
-    label: "EXPORT AMOUNT YTD"
+    label: "EXPORT AMOUNT MTD"
     type: sum
     sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
@@ -1009,7 +1009,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: EXPORT_AMOUNT_MTDY {
-    label: "EXPORT AMOUNT YTDY"
+    label: "EXPORT AMOUNT MTDY"
     type: sum
     sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
@@ -1036,7 +1036,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_BUD_AMOUNT_MTD_MIL {
-    label: "EXPORT BUD AMOUNT YTD MIL"
+    label: "EXPORT BUD AMOUNT MTD MIL"
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "20"]
@@ -1074,7 +1074,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_EXPORT_AMOUNT_MTD {
-    label: "BUD EXPORT AMOUNT YTD"
+    label: "BUD EXPORT AMOUNT MTD"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION}  END;;
@@ -1155,7 +1155,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
     type: number
     sql: CASE WHEN ${TOTAL_QTY} > 0 AND ${TOTAL_QTY_YEAR_ANT} = 0 THEN 1
               WHEN ${TOTAL_QTY} = 0 AND ${TOTAL_QTY_YEAR_ANT} > 0 THEN -1
-              WHEN (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0))  = 0 THEN 0 ELSE (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0))   END *100;;
+              WHEN (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0))-1  = 0 THEN 0 ELSE (${TOTAL_QTY}/NULLIF(${TOTAL_QTY_YEAR_ANT},0))-1   END *100;;
     value_format: "0.00\%"
 
     drill_fields: [ Client,TOTAL_QTY,TOTAL_QTY_YEAR_ANT,_VS_YEAR_ANT_QTY_T]
@@ -1169,7 +1169,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_TOTAL_QTY {
-    label: "BUD TOTAL YTY"
+    label: "BUD TOTAL QTY"
     type: number
     sql: ${NATIONAL_BUD_QTY_MTD} + ${EXPORT_BUD_QTY_MTD} ;;
     #[#NATIONAL BUD QTY MTD]+ [#EXPORT BUD QTY MTD]
@@ -1184,7 +1184,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
     type: number
     sql: CASE WHEN ${TOTAL_QTY} > 0 AND ${BUD_TOTAL_QTY} = 0 THEN 1
               WHEN ${TOTAL_QTY} = 0 AND ${BUD_TOTAL_QTY} > 0 THEN -1
-              WHEN (${TOTAL_QTY} /  NULLIF (${BUD_TOTAL_QTY},0))-1=-1 THEN 0 ELSE (${TOTAL_QTY} /  NULLIF (${BUD_TOTAL_QTY},0))-1
+              WHEN (${TOTAL_QTY} /  NULLIF (${BUD_TOTAL_QTY},0))-1= 0 THEN 0 ELSE (${TOTAL_QTY} /  NULLIF (${BUD_TOTAL_QTY},0))-1
              END *100 ;;
     value_format: "0.00\%"
 
@@ -1209,22 +1209,22 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
 
-  measure: TOTAL_AMOUNT_YEAR_ANT {
-    label: "TOTAL AMOUNT AÑO ANT"
-    type: number
-    sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${Z_BUD_EXPORT_AMOUNT} ;;
-    #[#NATIONAL AMOUNT MTD AÑO ANT]+[#EXPORT AMOUNT MTD AÑO ANT]
+  #measure: TOTAL_AMOUNT_YEAR_ANT {
+  #  label: "TOTAL AMOUNT AÑO ANT2"
+  #  type: number
+  #  sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT} + ${Z_BUD_EXPORT_AMOUNT} ;;
+  #[#NATIONAL AMOUNT MTD AÑO ANT]+[#EXPORT AMOUNT MTD AÑO ANT]
 
-    drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT,Z_BUD_EXPORT_AMOUNT,TOTAL_AMOUNT_YEAR_ANT]
-    value_format: "#,##0.00"
-  }
+  #   drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT,Z_BUD_EXPORT_AMOUNT,TOTAL_AMOUNT_YEAR_ANT]
+  #  value_format: "#,##0.00"
+  #}
 
   measure: VS_YEAR_ANT_VAL_T {
-    label: "% VS AÑO ANT VAL T"
+    label: "% VS AÑO ANT VAL"
     type: number
     sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${TOTAL_AMOUNT_YEAR_ANT} = 0 THEN 1
               WHEN ${TOTAL_AMOUNT} = 0 AND ${TOTAL_AMOUNT_YEAR_ANT} > 0 THEN -1
-              WHEN (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))
+              WHEN (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))-1 = 0 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))-1
              END *100;;
     value_format: "0.00\%"
 
@@ -1255,9 +1255,9 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   measure: VS_BUD_T {
     label: "% VS BUD T"
     type: number
-    sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${BUD_TOTAL_AMOUNT} = 0 THEN 1
-              WHEN ${TOTAL_AMOUNT} = 0 AND ${BUD_TOTAL_AMOUNT} > 0 THEN -1
-              WHEN (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))-1=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT},0))-1
+    sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${BUD_TOTAL_AMOUNT_YEAR} = 0 THEN 1
+              WHEN ${TOTAL_AMOUNT} = 0 AND ${BUD_TOTAL_AMOUNT_YEAR} > 0 THEN -1
+              WHEN (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT_YEAR},0))-1=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${BUD_TOTAL_AMOUNT_YEAR},0))-1
              END * 100;;
     value_format: "0.00\%"
 
@@ -1310,14 +1310,14 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
 
-  measure:  TOTAL_AMOUNT_YEAR_ANT_YEAR {
+  measure:  TOTAL_AMOUNT_YEAR_ANT {
     label: "TOTAL AMOUNT AÑO ANT"
     type: number
     sql: ${NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR} + ${EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR} ;;
 
     #[#Z_BUD  NATIONAL AMOUNT]+ [#Z_BUD  EXPORT AMOUNT]
 
-    drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR,EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR,TOTAL_AMOUNT_YEAR_ANT_YEAR]
+    drill_fields: [ Client,NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR,EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR,TOTAL_AMOUNT_YEAR_ANT]
     value_format: "#,##0.00"
   }
 
@@ -1370,7 +1370,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure:  BUD_TOTAL_AMOUNT_YEAR{
-    label: "BUD TOTAL AMOUNT"
+    label: "BUD TOTAL AMOUNT2"
     type: number
     sql: ${z_BUD_NATIONAL_AMOUNT} + ${z_BUD_EXPORT_AMOUNT} ;;
 
@@ -1415,6 +1415,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
     #  value_format_name: decimal_1
 
   }
+
 
   ####################################################################################################################################
 
