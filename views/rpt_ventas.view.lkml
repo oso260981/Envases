@@ -1281,9 +1281,9 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   measure: VS_YEAR_ANT_VAL_T {
     label: "% VS AÑO ANT VAL"
     type: number
-    sql: CASE WHEN ${TOTAL_AMOUNT} > 1 AND ${TOTAL_AMOUNT_YEAR_ANT} = 0 THEN 1
+    sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${TOTAL_AMOUNT_YEAR_ANT} = 0 THEN 1
               WHEN ${TOTAL_AMOUNT} = 0 AND ${TOTAL_AMOUNT_YEAR_ANT} > 0 THEN -1
-              WHEN (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))=-1 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))
+              WHEN (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))-1 = 0 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))-1
              END *100;;
     value_format: "0.00\%"
 
