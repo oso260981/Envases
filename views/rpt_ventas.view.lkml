@@ -1429,7 +1429,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure:  BUD_TOTAL_AMOUNT_YEAR{
-    label: "BUD TOTAL AMOUNT2"
+    label: "BUD TOTAL AMOUNT"
     type: number
     sql: ${z_BUD_NATIONAL_AMOUNT} + ${z_BUD_EXPORT_AMOUNT} ;;
 
