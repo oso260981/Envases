@@ -1281,11 +1281,10 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   measure: VS_YEAR_ANT_VAL_T {
     label: "% VS AÑO ANT VAL"
     type: number
-    #sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${TOTAL_AMOUNT_YEAR_ANT} = 0 THEN 1
-    #          WHEN ${TOTAL_AMOUNT} = 0 AND ${TOTAL_AMOUNT_YEAR_ANT} > 0 THEN -1
-    #          WHEN (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))-1 = 0 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))-1
-    #         END *100;;
-    sql: ((${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))-1) * 100 ;;
+    sql: CASE WHEN ${TOTAL_AMOUNT} > 0 AND ${TOTAL_AMOUNT_YEAR_ANT} = 0 THEN 1
+              WHEN ${TOTAL_AMOUNT} = 0 AND ${TOTAL_AMOUNT_YEAR_ANT} > 0 THEN -1
+              WHEN (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))-1 = 0 THEN 0 ELSE (${TOTAL_AMOUNT} /  NULLIF (${TOTAL_AMOUNT_YEAR_ANT},0))-1
+             END *100;;
     value_format: "0.00\%"
 
     drill_fields: [ Client,TOTAL_AMOUNT,TOTAL_AMOUNT_YEAR_ANT,VS_YEAR_ANT_VAL_T]
@@ -1430,7 +1429,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure:  BUD_TOTAL_AMOUNT_YEAR{
-    label: "BUD TOTAL AMOUNT"
+    label: "BUD TOTAL AMOUNT2"
     type: number
     sql: ${z_BUD_NATIONAL_AMOUNT} + ${z_BUD_EXPORT_AMOUNT} ;;
 
