@@ -899,7 +899,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   measure: VS_BUD_VAL {
     label: "% VS BUD VAL"
     type: number
-    sql: ((${NATIONAL_AMOUNT_MTD}/NULLIF(${z_BUD_EXPORT_AMOUNT},0))-1)*100 ;;
+    sql: ((${NATIONAL_AMOUNT_MTD}/NULLIF(${Z_BUD_NATIONAL_AMOUNT},0))-1)*100 ;;
 
 
 
@@ -1172,7 +1172,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   measure: VS_BUD_VAL_EXP {
     label: "% VS BUD VAL EXP"
     type: number
-    sql: ((${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1)*100 ;;
+    sql: ((${EXPORT_AMOUNT_MTD} /  NULLIF (${z_BUD_EXPORT_AMOUNT},0))-1)*100 ;;
     #sql: CASE WHEN ${EXPORT_AMOUNT_MTD} > 0 AND ${Z_BUD_EXPORT_AMOUNT} = 0 THEN 1
     #          WHEN ${EXPORT_AMOUNT_MTD} = 0 AND ${Z_BUD_EXPORT_AMOUNT} > 0 THEN -1
     #          WHEN (${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1=-1 THEN 0 ELSE (${EXPORT_AMOUNT_MTD} /  NULLIF (${Z_BUD_EXPORT_AMOUNT},0))-1
