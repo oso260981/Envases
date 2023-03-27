@@ -899,7 +899,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   measure: VS_BUD_VAL {
     label: "% VS BUD VAL"
     type: number
-    sql: ((${NATIONAL_AMOUNT_MTD}/NULLIF(${Z_BUD_NATIONAL_AMOUNT},0))-1)*100 ;;
+    sql: ((${NATIONAL_AMOUNT_MTD}/NULLIF(${z_BUD_EXPORT_AMOUNT},0))-1)*100 ;;
 
 
 
