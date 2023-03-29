@@ -96,13 +96,6 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' TCURR  FR
 
 
 
-
-
-
-
-
-
-
   measure: count {
     type: count
     drill_fields: [detail*]
