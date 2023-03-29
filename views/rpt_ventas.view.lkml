@@ -1,6 +1,6 @@
 view: rpt_ventas {
   derived_table: {
-    sql: SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' FCURR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+    sql: SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' FCURR, CURRENT_DATE() ACTUALIZACION FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
       LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY NOT IN ('TOTAL MXN')
 
    UNION ALL
@@ -108,7 +108,16 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' TCURR  FR
     sql:  replace(SUBSTR( CAST ({% date_start date_filter %} AS STRING), 1,10),"-","")    ;;
   }
 
+  dimension: actualizacion {
+    type: date
+    sql: ${TABLE}.ACTUALIZACION ;;
+  }
 
+  measure: ult_act {
+    type: date
+    sql: MAX(${actualizacion});;
+    convert_tz: no
+  }
 
 
 
