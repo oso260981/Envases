@@ -46,7 +46,7 @@ view: rpt_ventas {
 ,V.CLIENT
 ,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR
 ,mo.UKURS
-,mo.FCURR FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+,mo.FCURR, CURRENT_DATE() ACTUALIZACION FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
 LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY
 LEFT JOIN (
 
@@ -59,7 +59,7 @@ WHERE CATEGORY='TOTAL MONEDA ORIGEN'
 
 union all
 
-SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' TCURR  FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' TCURR, CURRENT_DATE() ACTUALIZACION  FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
       LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY in ('TOTAL MXN') and SALESORG in ( "MXF1","MXFC")
 
 
