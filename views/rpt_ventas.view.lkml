@@ -115,6 +115,7 @@ SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' TCURR, CU
 
   measure: ult_act {
     type: date
+    label: "Fecha actualización"
     sql: MAX(${actualizacion});;
     convert_tz: no
   }
