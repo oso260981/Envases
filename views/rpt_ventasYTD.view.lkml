@@ -1,6 +1,6 @@
 view: rpt_ventasytd {
   derived_table: {
-    sql: SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' FCURR, CURRENT_DATE() ACTUALIZACION FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+    sql: SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' FCURR, DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY) ACTUALIZACION FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
       LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY NOT IN ('TOTAL MXN')
 
    UNION ALL
@@ -47,7 +47,7 @@ view: rpt_ventasytd {
 ,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR
 ,mo.UKURS
 ,mo.FCURR,
-CURRENT_DATE() ACTUALIZACION FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY) ACTUALIZACION FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
 LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY
 LEFT JOIN (
 
@@ -60,7 +60,7 @@ WHERE CATEGORY='TOTAL MONEDA ORIGEN'
 
 union all
 
-SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' TCURR, CURRENT_DATE() ACTUALIZACION FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
+SELECT v.*,CAST(c.DATE AS TIMESTAMP) Fecha,c.QUARTER,c.YEAR,0 UKURS,'' TCURR, DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY) ACTUALIZACION FROM envases-analytics-eon-poc.ENVASES_REPORTING.rpt_ventas v
       LEFT JOIN envases-analytics-eon-poc.ENVASES_REPORTING.CALENDAR c on v.CALDAY=c.CALDAY  WHERE CATEGORY in ('TOTAL MXN') and SALESORG in ( "MXF1","MXFC")
        ;;
   }
