@@ -618,7 +618,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   ####################################Medidas Calculadas###############################################################################
 
   measure: NATIONAL_QTY_MTD {
-    label: "NATIONAL QTY MTD"
+    label: "NATIONAL QTY YTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -636,7 +636,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: NATIONAL_QTY_MTDY {
-    label: "NATIONAL QTY_MTD AÑO ANT"
+    label: "NATIONAL QTY_YTD AÑO ANT"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -664,7 +664,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: NATIONAL_BUD_QTY_MTD {
-    label: "NATIONAL BUD QTY MTD"
+    label: "NATIONAL BUD QTY YTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
 
@@ -703,7 +703,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_NATIONAL_QTY_MTD {
-    label: "BUD NATIONAL QTY MTD"
+    label: "BUD NATIONAL QTY YTD"
 
 
     type: sum
@@ -753,7 +753,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: NATIONAL_AMOUNT_MTD {
-    label: "NATIONAL AMOUNT MTD"
+    label: "NATIONAL AMOUNT YTD"
     type: sum
     sql: ${znetval}/1000 ;;
 
@@ -769,7 +769,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT {
-    label: "NATIONAL AMOUNT MTD AÑO ANT"
+    label: "NATIONAL AMOUNT YTD AÑO ANT"
     hidden: yes
     type: sum
     sql: ${znetval}/1000 ;;
@@ -796,7 +796,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: NATIONAL_BUD_AMOUNT_MTD_MIL {
-    label: "NATIONAL BUD AMOUNT MTD MIL"
+    label: "NATIONAL BUD AMOUNT YTD MIL"
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "10"]
@@ -833,7 +833,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_NATIONAL_AMOUNT_MTD {
-    label: "BUD NATIONAL AMOUNT MTD"
+    label: "BUD NATIONAL AMOUNT YTD"
     type: number
 
 
@@ -892,7 +892,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_QTY_MTD {
-    label: "EXPORT QTY MTD"
+    label: "EXPORT QTY YTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -907,7 +907,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: EXPORT_QTY_MTD_YEAR_ANT {
-    label: "EXPORT QTY_MTD AÑO ANT"
+    label: "EXPORT QTY_YTD AÑO ANT"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -940,7 +940,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_BUD_QTY_MTD {
-    label: "EXPORT BUD QTY MTD"
+    label: "EXPORT BUD QTY YTD"
     type: sum
     sql: ${bill_qty}/1000 ;;
     filters: [distr_chan: "20"]
@@ -977,7 +977,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_EXPORT_QTY_MTD {
-    label: "BUD EXPORT QTY MTD"
+    label: "BUD EXPORT QTY YTD"
 
     type: sum
     sql: ${bill_qty}/1000 ;;
@@ -1019,7 +1019,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_AMOUNT_MTD {
-    label: "EXPORT AMOUNT MTD"
+    label: "EXPORT AMOUNT YTD"
     type: sum
     sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
@@ -1038,7 +1038,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
   }
 
   measure: EXPORT_AMOUNT_MTDY {
-    label: "EXPORT AMOUNT MTDY"
+    label: "EXPORT AMOUNT YTDY"
     type: sum
     sql: ${znetval}/1000 ;;
     filters: [distr_chan: "20"]
@@ -1065,7 +1065,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_BUD_AMOUNT_MTD_MIL {
-    label: "EXPORT BUD AMOUNT MTD MIL"
+    label: "EXPORT BUD AMOUNT YTD MIL"
     type: sum
     sql: ${znetval} ;;
     filters: [distr_chan: "20"]
@@ -1103,7 +1103,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: BUD_EXPORT_AMOUNT_MTD {
-    label: "BUD EXPORT AMOUNT MTD"
+    label: "BUD EXPORT AMOUNT YTD"
     type: number
     sql: CASE WHEN EXTRACT(MONTH FROM ${filter_start_date_date}) = 1 THEN ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION_2}
       else ${BUD_DIA_MES_EXPORT_AMOUNT}* ${DIA_SELECCION}  END;;
@@ -1304,7 +1304,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: NATIONAL_AMOUNT_MTD_YEAR_ANT_YEAR{
-    label: "NATIONAL AMOUNT MTD AÑO ANT"
+    label: "NATIONAL AMOUNT YTD AÑO ANT"
 
     type: sum
     sql: ${znetval}/1000 ;;
@@ -1323,7 +1323,7 @@ when ${TABLE}.CATEGORY="Other" then "a15"
 
 
   measure: EXPORT_AMOUNT_MTD_YEAR_ANT_YEAR {
-    label: "EXPORT AMOUNT MTD AÑO ANT"
+    label: "EXPORT AMOUNT YTD AÑO ANT"
 
     type: sum
     sql: ${znetval}/1000 ;;
