@@ -27,10 +27,10 @@ persist_with: envases-eon-alg_default_datagroup
 
 explore: rpt_ventas {
 
-    access_filter: {
-     field: rpt_ventas.category
-    user_attribute: categoria
-  }
+#access_filter: {
+ #    field: rpt_ventas.category
+  #  user_attribute: categoria
+  #}
 
 
 }
