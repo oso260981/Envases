@@ -25,7 +25,15 @@ persist_with: envases-eon-alg_default_datagroup
 # Typically, join parameters require that you define the join type, join relationship, and a sql_on clause.
 # Each joined view also needs to define a primary key.
 
-explore: rpt_ventas {}
+explore: rpt_ventas {
+
+    access_filter: {
+     field: rpt_ventas.category
+    user_attribute: categoria
+  }
+
+
+}
 explore: rpt_ventasytd {}
 explore: calendar {}
 
